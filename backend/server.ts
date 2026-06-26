@@ -10,7 +10,7 @@ import {
   platformStats,
   projects,
   submissions,
-} from "../lib/mock";
+} from "./lib/mock";
 
 const port = Number.parseInt(process.env.PORT ?? "8080", 10);
 const originList = (process.env.CORS_ORIGIN ?? process.env.CLIENT_ORIGIN ?? "http://localhost:3000")
