@@ -5,10 +5,11 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
-import { useAuth } from "@/components/providers/AuthProvider";
 import { DiscordIcon, SOCIALS, TelegramIcon, XIcon } from "./social";
 
-// "Challenges" and "Leaderboard" live inside the app — they prompt connect.
+const comingSoonHref = "/#coming-soon";
+
+// "Challenges" and "Leaderboard" stay gated behind the launch popup for now.
 const navItems = [
   { label: "Home", href: "/" as const },
   { label: "Challenges", gated: true as const },
@@ -17,7 +18,6 @@ const navItems = [
 ];
 
 export function LandingHeader() {
-  const { openConnect } = useAuth();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -36,13 +36,13 @@ export function LandingHeader() {
         <nav className="mx-auto hidden items-center gap-8 md:flex">
           {navItems.map((n, i) =>
             "gated" in n ? (
-              <button
+              <Link
                 key={n.label}
-                onClick={openConnect}
+                href={comingSoonHref}
                 className="text-sm font-medium text-muted transition-colors hover:text-text"
               >
                 {n.label}
-              </button>
+              </Link>
             ) : (
               <Link
                 key={n.label}
@@ -65,12 +65,12 @@ export function LandingHeader() {
           <SocialButton href={SOCIALS.telegram} label="Telegram">
             <TelegramIcon size={18} />
           </SocialButton>
-          <button
-            onClick={openConnect}
+          <Link
+            href={comingSoonHref}
             className="ml-1 h-10 rounded-full bg-gradient-to-b from-gold-bright to-gold px-5 text-sm font-semibold text-black transition-shadow hover:shadow-[0_8px_30px_-6px_rgba(240,185,11,0.6)]"
           >
             Open the Book
-          </button>
+          </Link>
         </div>
 
         {/* Mobile hamburger */}
@@ -114,16 +114,13 @@ export function LandingHeader() {
               <nav className="flex flex-col gap-1 p-4">
                 {navItems.map((n) =>
                   "gated" in n ? (
-                    <button
+                    <Link
                       key={n.label}
-                      onClick={() => {
-                        setOpen(false);
-                        openConnect();
-                      }}
+                      href={comingSoonHref}
                       className="rounded-xl px-4 py-3 text-left text-[15px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-text"
                     >
                       {n.label}
-                    </button>
+                    </Link>
                   ) : (
                     <Link
                       key={n.label}
@@ -156,15 +153,12 @@ export function LandingHeader() {
                     <DiscordIcon size={18} />
                   </SocialButton>
                 </div>
-                <button
-                  onClick={() => {
-                    setOpen(false);
-                    openConnect();
-                  }}
+                <Link
+                  href={comingSoonHref}
                   className="h-12 w-full rounded-2xl bg-gradient-to-b from-gold-bright to-gold text-[15px] font-semibold text-black"
                 >
                   Open the Book
-                </button>
+                </Link>
               </div>
             </motion.div>
           </motion.div>

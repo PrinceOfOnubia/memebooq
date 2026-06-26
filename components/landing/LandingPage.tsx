@@ -1,13 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { HowItWorks } from "@/components/home/HowItWorks";
-import { useAuth } from "@/components/providers/AuthProvider";
 import { LandingHero } from "./LandingHero";
 
 export function LandingPage() {
-  const { openConnect } = useAuth();
-
   return (
     <>
       <LandingHero />
@@ -23,16 +21,16 @@ export function LandingPage() {
               Ready to <span className="text-gold-grad">compete?</span>
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[15px] text-muted">
-              Open the Book to enter Memebooq — discover live challenges and start
-              earning on-chain rewards.
+              The first chapter is still being prepared — discover what Memebooq
+              will unlock when launch begins.
             </p>
-            <button
-              onClick={openConnect}
+            <Link
+              href="/#coming-soon"
               className="group mt-7 inline-flex h-14 items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-gold-bright to-gold px-8 text-[15px] font-semibold text-black transition-shadow hover:shadow-[0_12px_44px_-8px_rgba(240,185,11,0.65)]"
             >
               Open the Book
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
-            </button>
+            </Link>
           </div>
         </div>
       </section>

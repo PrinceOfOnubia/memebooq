@@ -9,6 +9,7 @@ import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingPage } from "@/components/landing/LandingPage";
+import { LandingGateProvider } from "@/components/landing/LandingGate";
 import { useAuth } from "@/components/providers/AuthProvider";
 
 // Marketing routes that stay reachable while logged out (no app chrome).
@@ -21,14 +22,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (!connected) {
     const isPublic = PUBLIC_ROUTES.some((p) => pathname.startsWith(p));
     return (
-      <>
-        <SmoothScroll />
-        <LandingHeader />
-        <main className="relative z-10 mx-auto min-h-[60vh] w-full max-w-[1240px] px-4 pb-12 pt-2 sm:px-6">
-          {isPublic ? <div className="pt-4">{children}</div> : <LandingPage />}
-        </main>
-        <LandingFooter />
-      </>
+      <LandingGateProvider>
+        <>
+          <SmoothScroll />
+          <LandingHeader />
+          <main className="relative z-10 mx-auto min-h-[60vh] w-full max-w-[1240px] px-4 pb-12 pt-2 sm:px-6">
+            {isPublic ? <div className="pt-4">{children}</div> : <LandingPage />}
+          </main>
+          <LandingFooter />
+        </>
+      </LandingGateProvider>
     );
   }
 

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { BookOpen, ChevronRight, DollarSign, Flag, Trophy, Users } from "lucide-react";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
-import { useAuth } from "@/components/providers/AuthProvider";
 import { ContractAddress } from "./ContractAddress";
 import { fetchPublicSite } from "@/lib/public-api";
 
@@ -17,7 +17,6 @@ type Stat = {
 };
 
 export function LandingHero() {
-  const { openConnect } = useAuth();
   const [statsData, setStatsData] = useState({
     totalUsers: 24_560,
     challenges: 1_248,
@@ -69,18 +68,18 @@ export function LandingHero() {
           <ContractAddress className="mt-7 w-full max-w-sm" />
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <button
-              onClick={openConnect}
+            <Link
+              href="/#coming-soon"
               className="flex h-14 items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-b from-gold-bright to-gold px-7 text-[15px] font-semibold text-black transition-shadow hover:shadow-[0_12px_44px_-8px_rgba(240,185,11,0.65)]"
             >
               <BookOpen size={19} /> Open the Book
-            </button>
-            <button
-              onClick={openConnect}
+            </Link>
+            <Link
+              href="/#coming-soon"
               className="flex h-14 items-center justify-center gap-2 rounded-2xl border border-border-strong bg-surface px-7 text-[15px] font-semibold text-text transition-colors hover:border-gold/50 hover:text-gold-bright"
             >
               <ChevronRight size={18} className="text-gold-bright" /> Explore Challenges
-            </button>
+            </Link>
           </div>
         </div>
 

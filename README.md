@@ -2,6 +2,8 @@
 
 Memebooq is a Next.js frontend with a lightweight backend for public data and deployment support.
 
+Launch readiness report: [LAUNCH_READINESS.md](./LAUNCH_READINESS.md)
+
 ## What’s included
 
 - Updated landing page branding and copy

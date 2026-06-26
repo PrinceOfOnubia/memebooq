@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-export const CONTRACT_ADDRESS = "0x1234...abcd5678";
+export const CONTRACT_ADDRESS = "Coming Soon";
 
 export function ContractAddress({ className = "" }: { className?: string }) {
   const [copied, setCopied] = useState(false);
@@ -15,19 +15,15 @@ export function ContractAddress({ className = "" }: { className?: string }) {
     });
   }
 
-  const short = `${CONTRACT_ADDRESS.slice(0, 6)}...${CONTRACT_ADDRESS.slice(-8)}`;
-
   return (
     <button
       onClick={copy}
       className={`group flex items-center gap-3 rounded-2xl border border-border bg-surface/60 px-4 py-3 text-left transition-colors hover:border-border-strong hover:bg-surface-2 ${className}`}
     >
       <span className="min-w-0 flex-1">
-        <span className="block text-[10px] font-semibold uppercase tracking-wider text-faint">
-          Contract Address (CA)
-        </span>
+        <span className="block text-[10px] font-semibold uppercase tracking-wider text-faint">CA</span>
         <span className="mt-0.5 flex items-center gap-2 font-mono text-[15px] text-text">
-          {short}
+          {CONTRACT_ADDRESS}
           {copied ? <Check size={14} className="text-green" /> : <Copy size={13} className="text-faint" />}
         </span>
       </span>

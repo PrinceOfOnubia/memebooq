@@ -219,6 +219,28 @@ body::after {
     -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
     mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
   }
+
+  .coming-soon-modal {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(16px) scale(0.985);
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease,
+      visibility 0s linear 220ms;
+  }
+
+  #coming-soon:target {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease,
+      visibility 0s linear 0s;
+  }
 }
 
 /* ───────────────────────── keyframes ───────────────────────── */

@@ -20,7 +20,7 @@ const originList = (process.env.CORS_ORIGIN ?? process.env.CLIENT_ORIGIN ?? "htt
 
 const sitePayload = {
   brand: "Memebooq",
-  contractAddress: "0x1234...abcd5678",
+  contractAddress: "Coming Soon",
   stats: {
     totalUsers: 24_560,
     challenges: 1_248,
