@@ -12,7 +12,7 @@ export function Footer() {
     <footer className="relative z-10 mt-8 border-t border-border bg-bg-2/60">
       <div className="mx-auto grid max-w-[1240px] gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
         <div>
-          <Logo />
+          <Logo href="/home" />
           <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-faint">
             The community-first crypto arena. Create on X, submit your link, compete for funded rewards.
           </p>

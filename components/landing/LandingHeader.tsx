@@ -7,11 +7,9 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { DiscordIcon, SOCIALS, TelegramIcon, XIcon } from "./social";
 
-const comingSoonHref = "/#coming-soon";
-
 // "Challenges" and "Leaderboard" stay gated behind the launch popup for now.
 const navItems = [
-  { label: "Home", href: "/" as const },
+  { label: "Home", href: "/landing" as const },
   { label: "Challenges", gated: true as const },
   { label: "Leaderboard", gated: true as const },
   { label: "Docs", href: "/docs" as const },
@@ -30,19 +28,17 @@ export function LandingHeader() {
   return (
     <header className="sticky top-0 z-50 glass-strong border-b border-border">
       <div className="mx-auto flex h-16 max-w-[1240px] items-center gap-4 px-4 sm:px-6">
-        <Logo />
+        <Logo href="/landing" />
 
         {/* Desktop nav */}
         <nav className="mx-auto hidden items-center gap-8 md:flex">
           {navItems.map((n, i) =>
             "gated" in n ? (
-              <Link
-                key={n.label}
-                href={comingSoonHref}
-                className="text-sm font-medium text-muted transition-colors hover:text-text"
-              >
-                {n.label}
-              </Link>
+              <form key={n.label} action="/landing#coming-soon" method="get">
+                <button className="text-sm font-medium text-muted transition-colors hover:text-text" type="submit">
+                  {n.label}
+                </button>
+              </form>
             ) : (
               <Link
                 key={n.label}
@@ -65,12 +61,11 @@ export function LandingHeader() {
           <SocialButton href={SOCIALS.telegram} label="Telegram">
             <TelegramIcon size={18} />
           </SocialButton>
-          <Link
-            href={comingSoonHref}
-            className="ml-1 h-10 rounded-full bg-gradient-to-b from-gold-bright to-gold px-5 text-sm font-semibold text-black transition-shadow hover:shadow-[0_8px_30px_-6px_rgba(240,185,11,0.6)]"
-          >
-            Open the Book
-          </Link>
+          <form action="/landing#coming-soon" method="get">
+            <button className="ml-1 h-10 rounded-full bg-gradient-to-b from-gold-bright to-gold px-5 text-sm font-semibold text-black transition-shadow hover:shadow-[0_8px_30px_-6px_rgba(240,185,11,0.6)]" type="submit">
+              Open the Book
+            </button>
+          </form>
         </div>
 
         {/* Mobile hamburger */}
@@ -101,7 +96,7 @@ export function LandingHeader() {
               className="absolute right-0 top-0 flex h-full w-[82%] max-w-xs flex-col glass-strong border-l border-border-strong"
             >
               <div className="flex h-16 items-center justify-between border-b border-border px-5">
-                <Logo />
+                <Logo href="/landing" />
                 <button
                   aria-label="Close menu"
                   onClick={() => setOpen(false)}
@@ -114,13 +109,15 @@ export function LandingHeader() {
               <nav className="flex flex-col gap-1 p-4">
                 {navItems.map((n) =>
                   "gated" in n ? (
-                    <Link
-                      key={n.label}
-                      href={comingSoonHref}
-                      className="rounded-xl px-4 py-3 text-left text-[15px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-text"
-                    >
-                      {n.label}
-                    </Link>
+                    <form key={n.label} action="/landing#coming-soon" method="get">
+                      <button
+                        onClick={() => setOpen(false)}
+                        className="w-full rounded-xl px-4 py-3 text-left text-[15px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-text"
+                        type="submit"
+                      >
+                        {n.label}
+                      </button>
+                    </form>
                   ) : (
                     <Link
                       key={n.label}
@@ -153,12 +150,15 @@ export function LandingHeader() {
                     <DiscordIcon size={18} />
                   </SocialButton>
                 </div>
-                <Link
-                  href={comingSoonHref}
-                  className="h-12 w-full rounded-2xl bg-gradient-to-b from-gold-bright to-gold text-[15px] font-semibold text-black"
-                >
-                  Open the Book
-                </Link>
+                <form action="/landing#coming-soon" method="get">
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="h-12 w-full rounded-2xl bg-gradient-to-b from-gold-bright to-gold text-[15px] font-semibold text-black"
+                    type="submit"
+                  >
+                    Open the Book
+                  </button>
+                </form>
               </div>
             </motion.div>
           </motion.div>

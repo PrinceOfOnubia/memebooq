@@ -25,7 +25,7 @@ export function ConnectModal() {
     setTimeout(() => {
       connect(id);
       setPending(null);
-      router.push("/");
+      router.push("/home");
     }, 750);
   }
 

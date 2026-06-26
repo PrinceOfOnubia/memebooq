@@ -12,7 +12,7 @@ import { me } from "@/lib/mock";
 import { cn, shortAddr } from "@/lib/utils";
 
 const nav = [
-  { href: "/", label: "Home" },
+  { href: "/home", label: "Home" },
   { href: "/explore", label: "Explore" },
   { href: "/leaderboard", label: "Leaderboard" },
 ];
@@ -36,11 +36,11 @@ export function TopBar() {
   return (
     <header className="sticky top-0 z-50 glass-strong border-b border-border">
       <div className="mx-auto flex h-16 max-w-[1240px] items-center gap-4 px-4 sm:px-6">
-        <Logo />
+        <Logo href="/home" />
 
         <nav className="ml-4 hidden items-center gap-1 md:flex">
           {nav.map((n) => {
-            const active = n.href === "/" ? pathname === "/" : pathname.startsWith(n.href);
+            const active = n.href === "/home" ? pathname === "/home" : pathname.startsWith(n.href);
             return (
               <Link
                 key={n.href}
@@ -117,7 +117,7 @@ export function TopBar() {
                     onClick={() => {
                       setMenuOpen(false);
                       disconnect();
-                      router.push("/");
+                      router.push("/home");
                     }}
                     className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-[14px] text-rose-400 transition-colors hover:bg-rose-500/10"
                   >

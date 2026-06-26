@@ -68,18 +68,22 @@ export function LandingHero() {
           <ContractAddress className="mt-7 w-full max-w-sm" />
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/#coming-soon"
-              className="flex h-14 items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-b from-gold-bright to-gold px-7 text-[15px] font-semibold text-black transition-shadow hover:shadow-[0_12px_44px_-8px_rgba(240,185,11,0.65)]"
-            >
-              <BookOpen size={19} /> Open the Book
-            </Link>
-            <Link
-              href="/#coming-soon"
-              className="flex h-14 items-center justify-center gap-2 rounded-2xl border border-border-strong bg-surface px-7 text-[15px] font-semibold text-text transition-colors hover:border-gold/50 hover:text-gold-bright"
-            >
-              <ChevronRight size={18} className="text-gold-bright" /> Explore Challenges
-            </Link>
+            <form action="/landing#coming-soon" method="get">
+              <button
+                className="flex h-14 w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-b from-gold-bright to-gold px-7 text-[15px] font-semibold text-black transition-shadow hover:shadow-[0_12px_44px_-8px_rgba(240,185,11,0.65)] sm:w-auto"
+                type="submit"
+              >
+                <BookOpen size={19} /> Open the Book
+              </button>
+            </form>
+            <form action="/landing#coming-soon" method="get">
+              <button
+                className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl border border-border-strong bg-surface px-7 text-[15px] font-semibold text-text transition-colors hover:border-gold/50 hover:text-gold-bright sm:w-auto"
+                type="submit"
+              >
+                <ChevronRight size={18} className="text-gold-bright" /> Explore Challenges
+              </button>
+            </form>
           </div>
         </div>
 

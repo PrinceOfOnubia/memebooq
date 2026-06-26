@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { LandingHero } from "./LandingHero";
@@ -24,13 +23,15 @@ export function LandingPage() {
               The first chapter is still being prepared — discover what Memebooq
               will unlock when launch begins.
             </p>
-            <Link
-              href="/#coming-soon"
-              className="group mt-7 inline-flex h-14 items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-gold-bright to-gold px-8 text-[15px] font-semibold text-black transition-shadow hover:shadow-[0_12px_44px_-8px_rgba(240,185,11,0.65)]"
-            >
-              Open the Book
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            <form action="/landing#coming-soon" method="get">
+              <button
+                className="group mt-7 inline-flex h-14 items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-gold-bright to-gold px-8 text-[15px] font-semibold text-black transition-shadow hover:shadow-[0_12px_44px_-8px_rgba(240,185,11,0.65)]"
+                type="submit"
+              >
+                Open the Book
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </form>
           </div>
         </div>
       </section>

@@ -6,28 +6,22 @@ import { BottomNav } from "./BottomNav";
 import { RewardTicker } from "./RewardTicker";
 import { Footer } from "./Footer";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { LandingGateProvider } from "@/components/landing/LandingGate";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingPage } from "@/components/landing/LandingPage";
-import { LandingGateProvider } from "@/components/landing/LandingGate";
-import { useAuth } from "@/components/providers/AuthProvider";
-
-// Marketing routes that stay reachable while logged out (no app chrome).
-const PUBLIC_ROUTES = ["/docs", "/privacy", "/terms", "/token"];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { connected } = useAuth();
   const pathname = usePathname();
 
-  if (!connected) {
-    const isPublic = PUBLIC_ROUTES.some((p) => pathname.startsWith(p));
+  if (pathname.startsWith("/landing") || pathname === "/") {
     return (
       <LandingGateProvider>
         <>
           <SmoothScroll />
           <LandingHeader />
           <main className="relative z-10 mx-auto min-h-[60vh] w-full max-w-[1240px] px-4 pb-12 pt-2 sm:px-6">
-            {isPublic ? <div className="pt-4">{children}</div> : <LandingPage />}
+            {pathname.startsWith("/landing") ? <LandingPage /> : <div className="pt-4">{children}</div>}
           </main>
           <LandingFooter />
         </>

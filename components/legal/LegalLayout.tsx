@@ -24,7 +24,7 @@ export function LegalLayout({
   return (
     <div className="mx-auto max-w-[1000px]">
       <Link
-        href="/"
+        href="/home"
         className="inline-flex items-center gap-1.5 text-[13px] text-faint transition-colors hover:text-text"
       >
         <ArrowLeft size={15} />
