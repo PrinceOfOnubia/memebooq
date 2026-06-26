@@ -14,7 +14,7 @@ export function LandingFooter() {
     <footer className="relative z-10 mt-12 border-t border-border bg-bg-2/60">
       <div className="mx-auto grid max-w-[1240px] gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.6fr_1fr_1fr]">
         <div>
-          <Logo href="/landing" />
+          <Logo href="/home" />
           <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-faint">
             The leading platform for crypto communities to compete, earn and grow together.
           </p>

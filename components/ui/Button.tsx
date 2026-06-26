@@ -36,13 +36,14 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
   return (
     <button
       ref={ref}
+      {...rest}
+      type={rest.type ?? "button"}
       className={cn(
         "inline-flex items-center justify-center gap-2 whitespace-nowrap select-none cursor-pointer transition-colors duration-200 active:opacity-90 disabled:opacity-50 disabled:pointer-events-none",
         variants[variant],
         sizes[size],
         className,
       )}
-      {...rest}
     >
       {children}
     </button>

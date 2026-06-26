@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, Link2, LogOut, MessageSquareShare, Wallet } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
@@ -18,6 +18,7 @@ export function SettingsClient() {
   const [push, setPush] = useState(true);
   const [xMentions, setXMentions] = useState(true);
   const [saving, setSaving] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -47,6 +48,15 @@ export function SettingsClient() {
     }
   }
 
+  function chooseAvatar(file?: File) {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return;
+    if (file.size > 5 * 1024 * 1024) return;
+    const reader = new FileReader();
+    reader.onload = () => setAvatar(String(reader.result ?? ""));
+    reader.readAsDataURL(file);
+  }
+
   return (
     <div className="mx-auto max-w-3xl space-y-8">
       <header className="rounded-[24px] border border-border bg-surface/50 p-6">
@@ -66,11 +76,30 @@ export function SettingsClient() {
 
       <section className="grid gap-5 rounded-[24px] border border-border bg-surface/50 p-6">
         <h2 className="font-display text-xl font-semibold">Profile</h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Display name" value={name} onChange={setName} />
-          <Field label="Username" value={handle} onChange={setHandle} />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Display name" value={name} onChange={setName} />
+            <Field label="Username" value={handle} onChange={setHandle} />
+          </div>
+        <div>
+          <label className="mb-1.5 block text-[13px] font-medium text-muted">Avatar</label>
+          <div className="flex flex-wrap items-center gap-3">
+            <Avatar src={avatar || user.avatar} alt={user.name} size={64} verified={user.xConnected} />
+            <input
+              ref={avatarInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                chooseAvatar(e.target.files?.[0]);
+                e.target.value = "";
+              }}
+            />
+            <Button variant="outline" size="sm" type="button" onClick={() => avatarInputRef.current?.click()}>
+              Change avatar
+            </Button>
+          </div>
+          <p className="mt-2 text-[12px] text-faint">PNG, JPG or GIF up to 5MB.</p>
         </div>
-        <Field label="Avatar URL" value={avatar} onChange={setAvatar} />
         <div>
           <label className="mb-1.5 block text-[13px] font-medium text-muted">Bio</label>
           <textarea
@@ -81,7 +110,7 @@ export function SettingsClient() {
           />
         </div>
         <div className="flex justify-end">
-          <Button onClick={() => void save()} disabled={saving}>
+          <Button type="button" onClick={() => void save()} disabled={saving}>
             {saving ? "Saving…" : "Save profile"}
           </Button>
         </div>
@@ -100,7 +129,7 @@ export function SettingsClient() {
                 <p className="text-sm text-muted">{shortAddr(user.wallet)}</p>
               </div>
             </div>
-            <Button variant="ghost" onClick={() => void disconnect()}>
+            <Button variant="ghost" type="button" onClick={() => void disconnect()}>
               <LogOut size={15} /> Disconnect
             </Button>
           </div>
@@ -120,10 +149,10 @@ export function SettingsClient() {
               </div>
             </div>
             <div className="flex gap-2">
-              <Button variant="glass" onClick={() => void connectX()}>
+              <Button variant="glass" type="button" onClick={() => void connectX()}>
                 {user.xConnected ? "Reconnect" : "Connect"}
               </Button>
-              <Button variant="ghost" onClick={() => void disconnectX()} disabled={!user.xConnected}>
+              <Button variant="ghost" type="button" onClick={() => void disconnectX()} disabled={!user.xConnected}>
                 <Link2 size={15} /> Disconnect
               </Button>
             </div>

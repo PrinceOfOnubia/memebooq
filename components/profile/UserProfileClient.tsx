@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Pencil, Settings2, Trophy, Wallet, Check, Link2, MessageSquareShare, LogOut } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
@@ -21,9 +21,22 @@ export function UserProfileClient() {
   const [tab, setTab] = useState<(typeof tabs)[number]>("Submissions");
   const [copied, setCopied] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
+  const [editSuccess, setEditSuccess] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [saving, setSaving] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!editOpen || !user) return;
+    setName(user.name);
+    setBio(user.bio);
+    setAvatar(user.avatar);
+    setEditError(null);
+    setEditSuccess(null);
+  }, [user, editOpen]);
 
   const joined = useMemo(() => {
     const slugs = user?.joinedChallenges ?? [];
@@ -75,12 +88,38 @@ export function UserProfileClient() {
 
   async function saveProfile() {
     setSaving(true);
+    setEditError(null);
     try {
-      await updateProfile({ name, bio });
+      const updated = await updateProfile({ name, bio, avatar });
+      if (!updated) {
+        throw new Error("Unable to update profile right now.");
+      }
+      setEditSuccess("Profile updated successfully.");
       setEditOpen(false);
+    } catch (err) {
+      setEditError(err instanceof Error ? err.message : "Unable to update profile right now.");
     } finally {
       setSaving(false);
     }
+  }
+
+  function changeAvatar(file?: File) {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setEditError("Please choose a valid image file.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setEditError("Avatar must be smaller than 5MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAvatar(String(reader.result ?? ""));
+      setEditError(null);
+    };
+    reader.readAsDataURL(file);
   }
 
   return (
@@ -109,10 +148,10 @@ export function UserProfileClient() {
             {shortAddr(currentUser.wallet)}
             {copied ? <Check size={14} className="text-green" /> : <Copy size={14} className="text-faint" />}
           </button>
-          <Button variant="outline" onClick={() => { setName(currentUser.name); setBio(currentUser.bio); setEditOpen(true); }}>
+          <Button variant="outline" type="button" onClick={() => { setName(currentUser.name); setBio(currentUser.bio); setAvatar(currentUser.avatar); setEditOpen(true); }}>
             <Pencil size={15} /> Edit profile
           </Button>
-          <Button variant="glass" onClick={() => void connectX()}>
+          <Button variant="glass" type="button" onClick={() => void connectX()}>
             <MessageSquareShare size={15} /> {user.xConnected ? "Reconnect X" : "Connect X"}
           </Button>
         </div>
@@ -133,10 +172,10 @@ export function UserProfileClient() {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <Button variant="ghost" size="sm" onClick={() => void unlinkX()} disabled={!currentUser.xConnected}>
+        <Button variant="ghost" size="sm" type="button" onClick={() => void unlinkX()} disabled={!currentUser.xConnected}>
           <Link2 size={14} /> Disconnect X
         </Button>
-        <Button variant="ghost" size="sm" onClick={() => void disconnect()}>
+        <Button variant="ghost" size="sm" type="button" onClick={() => void disconnect()}>
           <LogOut size={14} /> Disconnect wallet
         </Button>
         <a
@@ -197,9 +236,28 @@ export function UserProfileClient() {
 
       <Modal open={editOpen} onClose={() => setEditOpen(false)} title="Edit profile">
         <div className="space-y-5">
+          {editError && <div className="rounded-2xl border border-red/20 bg-red/10 px-4 py-3 text-[13px] text-red">{editError}</div>}
+          {editSuccess && <div className="rounded-2xl border border-green/20 bg-green/10 px-4 py-3 text-[13px] text-green">{editSuccess}</div>}
           <div className="flex items-center gap-4">
-                <Avatar src={currentUser.avatar} alt={currentUser.name} size={64} verified={currentUser.xConnected} />
-            <Button variant="outline" size="sm">Change avatar</Button>
+            <Avatar src={avatar || currentUser.avatar} alt={currentUser.name} size={64} verified={currentUser.xConnected} />
+            <input
+              ref={avatarInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                changeAvatar(e.target.files?.[0]);
+                e.target.value = "";
+              }}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              type="button"
+              onClick={() => avatarInputRef.current?.click()}
+            >
+              Change avatar
+            </Button>
           </div>
           <div>
             <label className="mb-1.5 block text-[13px] font-medium text-muted">Display name</label>
@@ -231,10 +289,10 @@ export function UserProfileClient() {
             </span>
           </div>
           <div className="flex gap-2 pt-1">
-            <Button variant="ghost" className="flex-1" onClick={() => { setName(currentUser.name); setBio(currentUser.bio); setEditOpen(false); }}>
+            <Button variant="ghost" className="flex-1" type="button" onClick={() => { setName(currentUser.name); setBio(currentUser.bio); setAvatar(currentUser.avatar); setEditOpen(false); }}>
               Cancel
             </Button>
-            <Button className="flex-1" onClick={() => void saveProfile()} disabled={saving}>
+            <Button className="flex-1" type="button" onClick={() => void saveProfile()} disabled={saving}>
               {saving ? "Saving…" : "Save changes"}
             </Button>
           </div>

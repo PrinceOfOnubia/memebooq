@@ -19,8 +19,9 @@ const nav = [
 export function TopBar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { address, disconnect, user } = useAuth();
+  const { address, disconnect, user, openConnect, connected } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -56,14 +57,29 @@ export function TopBar() {
           })}
         </nav>
 
-        <button
-          onClick={() => router.push("/explore")}
-          className="ml-auto hidden h-10 w-64 items-center gap-2.5 rounded-full border border-border bg-surface/70 px-4 text-sm text-faint transition-colors hover:border-border-strong lg:flex"
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            router.push(search.trim() ? `/explore?q=${encodeURIComponent(search.trim())}` : "/explore");
+          }}
+          className="ml-auto hidden lg:block"
         >
-          <Search size={16} />
-          <span>Search challenges…</span>
-          <kbd className="ml-auto rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-muted">/</kbd>
-        </button>
+          <label className="flex h-10 w-72 items-center gap-2.5 rounded-full border border-border bg-surface/70 px-4 text-sm text-faint transition-colors focus-within:border-border-strong">
+            <Search size={16} />
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search challenges…"
+              className="h-full flex-1 bg-transparent outline-none placeholder:text-faint"
+            />
+            <button
+              type="submit"
+              className="rounded-full bg-surface-2 px-2 py-1 font-mono text-[10px] text-muted transition-colors hover:text-text"
+            >
+              Enter
+            </button>
+          </label>
+        </form>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-2">
           <button
@@ -81,9 +97,13 @@ export function TopBar() {
             <Plus size={16} strokeWidth={2.6} />
             Create
           </Link>
-          <button className="hidden h-10 items-center gap-2 rounded-full border border-border-strong bg-surface px-3 text-sm font-medium transition-colors hover:border-gold/50 sm:flex">
+          <button
+            className="hidden h-10 items-center gap-2 rounded-full border border-border-strong bg-surface px-3 text-sm font-medium transition-colors hover:border-gold/50 sm:flex"
+            onClick={() => (connected ? router.push("/profile") : openConnect())}
+            type="button"
+          >
             <Wallet size={16} className="text-gold-bright" />
-            <span className="font-mono">2.41 BNB</span>
+            <span className="font-mono">{connected ? shortAddr(address ?? user?.wallet ?? "") : "Connect wallet"}</span>
           </button>
 
           <div ref={menuRef} className="relative">

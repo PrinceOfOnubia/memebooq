@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { ChallengeCard } from "@/components/challenge/ChallengeCard";
 import { challenges } from "@/lib/mock";
@@ -13,9 +14,15 @@ const sorts = ["Trending", "Newest", "Highest Rewards", "Ending Soon"] as const;
 type Sort = (typeof sorts)[number];
 
 export function ExploreClient() {
-  const [q, setQ] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [q, setQ] = useState(searchParams.get("q") ?? "");
   const [cat, setCat] = useState<(typeof categories)[number]>("All");
   const [sort, setSort] = useState<Sort>("Trending");
+
+  useEffect(() => {
+    setQ(searchParams.get("q") ?? "");
+  }, [searchParams]);
 
   const list = useMemo(() => {
     let l = challenges.filter((c) => {
@@ -52,7 +59,13 @@ export function ExploreClient() {
 
       {/* search */}
       <div className="sticky top-16 z-30 -mx-4 border-b border-border bg-bg/85 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:px-6">
-        <div className="flex h-12 items-center gap-3 rounded-2xl border border-border bg-surface px-4 focus-within:border-gold/50">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            router.replace(q.trim() ? `/explore?q=${encodeURIComponent(q.trim())}` : "/explore");
+          }}
+          className="flex h-12 items-center gap-3 rounded-2xl border border-border bg-surface px-4 focus-within:border-gold/50"
+        >
           <Search size={18} className="text-faint" />
           <input
             value={q}
@@ -61,11 +74,18 @@ export function ExploreClient() {
             className="h-full flex-1 bg-transparent text-[15px] outline-none placeholder:text-faint"
           />
           {q && (
-            <button onClick={() => setQ("")} className="text-faint hover:text-text">
+            <button
+              type="button"
+              onClick={() => {
+                setQ("");
+                router.replace("/explore");
+              }}
+              className="text-faint hover:text-text"
+            >
               <X size={16} />
             </button>
           )}
-        </div>
+        </form>
 
         {/* category chips */}
         <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto">

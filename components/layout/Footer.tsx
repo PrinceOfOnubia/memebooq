@@ -1,4 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Search } from "lucide-react";
 import { Logo } from "./Logo";
 
 const cols = [
@@ -8,6 +13,9 @@ const cols = [
 ];
 
 export function Footer() {
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+
   return (
     <footer className="relative z-10 mt-8 border-t border-border bg-bg-2/60">
       <div className="mx-auto grid max-w-[1240px] gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
@@ -17,6 +25,29 @@ export function Footer() {
             The community-first crypto arena. Create on X, submit your link, compete for funded rewards.
           </p>
           <p className="mt-4 text-[12px] text-faint">Dark mode · Mobile-first · Powered by BNB Chain</p>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              router.push(search.trim() ? `/explore?q=${encodeURIComponent(search.trim())}` : "/explore");
+            }}
+            className="mt-5 hidden max-w-sm lg:block"
+          >
+            <label className="flex h-11 items-center gap-2 rounded-2xl border border-border bg-surface/70 px-4 text-sm text-faint transition-colors focus-within:border-border-strong">
+              <Search size={16} />
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search challenges…"
+                className="h-full flex-1 bg-transparent outline-none placeholder:text-faint"
+              />
+              <button
+                type="submit"
+                className="rounded-full bg-surface-2 px-2 py-1 font-mono text-[10px] text-muted transition-colors hover:text-text"
+              >
+                Enter
+              </button>
+            </label>
+          </form>
         </div>
         {cols.map((c) => (
           <div key={c.title}>

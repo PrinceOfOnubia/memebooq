@@ -37,13 +37,18 @@ export function Modal({
   const [mounted, setMounted] = useState(false);
   const shellRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const onCloseRef = useRef(onClose);
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onClose();
+        onCloseRef.current();
         return;
       }
       if (e.key !== "Tab") return;
@@ -92,7 +97,7 @@ export function Modal({
       document.body.style.overflow = "";
       previousActive?.focus?.();
     };
-  }, [open, onClose]);
+  }, [open]);
 
   if (!mounted) return null;
 
@@ -108,7 +113,7 @@ export function Modal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => onCloseRef.current()} />
           <motion.div
             ref={shellRef}
             tabIndex={-1}
@@ -131,7 +136,7 @@ export function Modal({
                 <h3 className="font-display text-lg font-semibold">{title}</h3>
                 <button
                   ref={closeButtonRef}
-                  onClick={onClose}
+                  onClick={() => onCloseRef.current()}
                   className="grid h-8 w-8 place-items-center rounded-full text-faint transition-colors hover:bg-surface-2 hover:text-text"
                 >
                   <X size={18} />
