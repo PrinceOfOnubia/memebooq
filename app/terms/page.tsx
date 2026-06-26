@@ -87,7 +87,7 @@ const sections: DocSection[] = [
     heading: "Changes & contact",
     body: [
       "We may update these terms from time to time. Continued use after changes means you accept the updated terms.",
-      "Questions? Email hello@memebooq.xyz or reach us on 𝕏.",
+      "Questions? Email hello@Memebooq.xyz or reach us on 𝕏.",
     ],
   },
 ];

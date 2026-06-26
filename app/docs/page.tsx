@@ -7,7 +7,7 @@ export const metadata = {
 
 const sections: DocSection[] = [
   {
-    id: "what-is-memebooq",
+    id: "what-is-Memebooq",
     heading: "What is Memebooq",
     body: [
       "Memebooq is a community-first crypto arena. Projects and creators post challenges with funded reward pools; anyone can join, submit their work, and compete for a share of the rewards.",

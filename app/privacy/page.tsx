@@ -101,7 +101,7 @@ const sections: DocSection[] = [
     heading: "Changes & contact",
     body: [
       "We may update this policy from time to time. Material changes will be reflected by the \"Last updated\" date, and significant updates may be announced in-app.",
-      "Questions about privacy? Email hello@memebooq.xyz or reach us on 𝕏.",
+      "Questions about privacy? Email hello@Memebooq.xyz or reach us on 𝕏.",
     ],
   },
 ];

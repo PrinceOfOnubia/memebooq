@@ -7,11 +7,12 @@ import { RewardTicker } from "./RewardTicker";
 import { Footer } from "./Footer";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { LandingHeader } from "@/components/landing/LandingHeader";
+import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingPage } from "@/components/landing/LandingPage";
 import { useAuth } from "@/components/providers/AuthProvider";
 
-// Marketing and browse routes that stay reachable while logged out (no app chrome).
-const PUBLIC_ROUTES = ["/", "/explore", "/leaderboard", "/challenge", "/project", "/docs", "/privacy", "/terms", "/token"];
+// Marketing routes that stay reachable while logged out (no app chrome).
+const PUBLIC_ROUTES = ["/docs", "/privacy", "/terms", "/token"];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { connected, ready } = useAuth();
@@ -21,15 +22,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (!ready) return null;
 
   if (!connected) {
-    const isPublic = pathname === "/" || PUBLIC_ROUTES.some((p) => p !== "/" && pathname.startsWith(p));
+    const isPublic = PUBLIC_ROUTES.some((p) => pathname.startsWith(p));
     return (
       <>
         <SmoothScroll />
         <LandingHeader />
-        <main className="relative z-10 mx-auto min-h-[60vh] w-full max-w-[1240px] px-4 pb-20 pt-6 sm:px-6">
-          {isPublic ? children : <LandingPage />}
+        <main className="relative z-10 mx-auto min-h-[60vh] w-full max-w-[1240px] px-4 pb-12 pt-2 sm:px-6">
+          {isPublic ? <div className="pt-4">{children}</div> : <LandingPage />}
         </main>
-        <Footer />
+        <LandingFooter />
       </>
     );
   }

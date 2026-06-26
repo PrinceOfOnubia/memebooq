@@ -4,21 +4,20 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation";
 import { Logo } from "@/components/layout/Logo";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { SOCIALS, DiscordIcon, TelegramIcon, XIcon } from "./social";
+import { DiscordIcon, SOCIALS, TelegramIcon, XIcon } from "./social";
 
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Challenges", href: "/explore" },
-  { label: "Leaderboard", href: "/leaderboard" },
-  { label: "Docs", href: "/docs" },
+// "Challenges" and "Leaderboard" live inside the app — they prompt connect.
+const navItems = [
+  { label: "Home", href: "/" as const },
+  { label: "Challenges", gated: true as const },
+  { label: "Leaderboard", gated: true as const },
+  { label: "Docs", href: "/docs" as const },
 ];
 
 export function LandingHeader() {
   const { openConnect } = useAuth();
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -29,26 +28,34 @@ export function LandingHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/5 bg-black/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-20 max-w-[1240px] items-center gap-4 px-4 sm:px-6">
+    <header className="sticky top-0 z-50 glass-strong border-b border-border">
+      <div className="mx-auto flex h-16 max-w-[1240px] items-center gap-4 px-4 sm:px-6">
         <Logo />
 
         {/* Desktop nav */}
-        <nav className="ml-8 hidden items-center gap-1 md:flex">
-          {navLinks.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={
-                "rounded-full px-3.5 py-2 text-[15px] font-medium transition-colors " +
-                (pathname === l.href || (l.href !== "/" && pathname.startsWith(l.href))
-                  ? "text-gold-bright"
-                  : "text-text/70 hover:text-text")
-              }
-            >
-              {l.label}
-            </Link>
-          ))}
+        <nav className="mx-auto hidden items-center gap-8 md:flex">
+          {navItems.map((n, i) =>
+            "gated" in n ? (
+              <button
+                key={n.label}
+                onClick={openConnect}
+                className="text-sm font-medium text-muted transition-colors hover:text-text"
+              >
+                {n.label}
+              </button>
+            ) : (
+              <Link
+                key={n.label}
+                href={n.href}
+                className={
+                  "text-sm font-medium transition-colors hover:text-text " +
+                  (i === 0 ? "text-gold-bright" : "text-muted")
+                }
+              >
+                {n.label}
+              </Link>
+            ),
+          )}
         </nav>
 
         <div className="ml-auto hidden items-center gap-2 md:flex">
@@ -60,7 +67,7 @@ export function LandingHeader() {
           </SocialButton>
           <button
             onClick={openConnect}
-            className="ml-1 h-12 rounded-xl bg-gradient-to-b from-gold-bright to-gold px-6 text-[15px] font-semibold text-black transition-shadow hover:shadow-[0_10px_35px_-8px_rgba(240,185,11,0.65)]"
+            className="ml-1 h-10 rounded-full bg-gradient-to-b from-gold-bright to-gold px-5 text-sm font-semibold text-black transition-shadow hover:shadow-[0_8px_30px_-6px_rgba(240,185,11,0.6)]"
           >
             Open the Book
           </button>
@@ -70,7 +77,7 @@ export function LandingHeader() {
         <button
           aria-label="Menu"
           onClick={() => setOpen(true)}
-          className="ml-auto grid h-12 w-12 place-items-center rounded-2xl border border-gold/50 text-text transition-colors hover:border-gold hover:bg-gold/10 md:hidden"
+          className="ml-auto grid h-10 w-10 place-items-center rounded-full border border-border text-muted transition-colors hover:text-text md:hidden"
         >
           <Menu size={20} />
         </button>
@@ -91,38 +98,53 @@ export function LandingHeader() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 360, damping: 34 }}
-              className="absolute right-0 top-0 flex h-full w-[82%] max-w-xs flex-col border-l border-white/10 bg-[#080808] text-text"
+              className="absolute right-0 top-0 flex h-full w-[82%] max-w-xs flex-col glass-strong border-l border-border-strong"
             >
-              <div className="flex h-20 items-center justify-between border-b border-white/10 px-5">
+              <div className="flex h-16 items-center justify-between border-b border-border px-5">
                 <Logo />
                 <button
                   aria-label="Close menu"
                   onClick={() => setOpen(false)}
-                  className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-text transition-colors hover:border-gold hover:bg-gold/10"
+                  className="grid h-9 w-9 place-items-center rounded-full text-faint transition-colors hover:bg-surface-2 hover:text-text"
                 >
                   <X size={20} />
                 </button>
               </div>
 
               <nav className="flex flex-col gap-1 p-4">
-                {navLinks.map((l) => (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    onClick={() => setOpen(false)}
-                    className={
-                      "rounded-2xl px-4 py-3 text-[15px] font-medium transition-colors " +
-                      (pathname === l.href || (l.href !== "/" && pathname.startsWith(l.href))
-                        ? "bg-white/5 text-gold-bright"
-                        : "text-text/75 hover:bg-white/5 hover:text-text")
-                    }
-                  >
-                    {l.label}
-                  </Link>
-                ))}
+                {navItems.map((n) =>
+                  "gated" in n ? (
+                    <button
+                      key={n.label}
+                      onClick={() => {
+                        setOpen(false);
+                        openConnect();
+                      }}
+                      className="rounded-xl px-4 py-3 text-left text-[15px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-text"
+                    >
+                      {n.label}
+                    </button>
+                  ) : (
+                    <Link
+                      key={n.label}
+                      href={n.href}
+                      onClick={() => setOpen(false)}
+                      className="rounded-xl px-4 py-3 text-[15px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-text"
+                    >
+                      {n.label}
+                    </Link>
+                  ),
+                )}
+                <Link
+                  href="/token"
+                  onClick={() => setOpen(false)}
+                  className="rounded-xl px-4 py-3 text-[15px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-text"
+                >
+                  Token
+                </Link>
               </nav>
 
-              <div className="mt-auto space-y-4 border-t border-white/10 p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+              <div className="mt-auto space-y-4 border-t border-border p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
                 <div className="flex items-center gap-3">
                   <SocialButton href={SOCIALS.x} label="X">
                     <XIcon size={16} />
@@ -131,7 +153,7 @@ export function LandingHeader() {
                     <TelegramIcon size={18} />
                   </SocialButton>
                   <SocialButton href={SOCIALS.discord} label="Discord">
-                    <DiscordIcon size={17} />
+                    <DiscordIcon size={18} />
                   </SocialButton>
                 </div>
                 <button
@@ -167,7 +189,7 @@ function SocialButton({
       target="_blank"
       rel="noreferrer"
       aria-label={label}
-      className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 text-text/80 transition-colors hover:border-gold/60 hover:bg-gold/10 hover:text-text"
+      className="grid h-10 w-10 place-items-center rounded-full border border-border text-muted transition-colors hover:border-border-strong hover:text-text"
     >
       {children}
     </a>

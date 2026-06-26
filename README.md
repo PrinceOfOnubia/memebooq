@@ -1,19 +1,13 @@
 # Memebooq
 
-Memebooq is a Next.js frontend with a lightweight Node backend for public data, branding and deployment support.
+Memebooq is a Next.js frontend with a lightweight backend for public data and deployment support.
 
-## What changed
+## What’s included
 
-- Public landing page updated to the supplied Memebooq brand and layout.
-- Logo mark is used in the header, landing art and favicon.
-- Public hero copy now reads:
-  - Create challenges.
-  - Grow your community.
-  - Earn rewards.
-- Hero buttons now say:
-  - Open the Book
-  - Explore Challenges
-- Backend added for Railway deployment with CORS and JSON endpoints.
+- Updated landing page branding and copy
+- Memebooq wordmark and icon favicon
+- Backend API for Railway deployment
+- Frontend-to-backend connection through `NEXT_PUBLIC_API_URL`
 
 ## Local development
 
@@ -29,18 +23,18 @@ Backend:
 ```bash
 cd backend
 npm install
-npm run dev
+npm run start
 ```
 
-## Environment variables
+## Environment files
 
 Frontend `.env.example`:
 
 ```bash
-NEXT_PUBLIC_API_URL=http://localhost:8080
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8080
 ```
 
-Backend `.env.example`:
+Backend `backend/.env.example`:
 
 ```bash
 PORT=8080
@@ -50,13 +44,14 @@ CLIENT_ORIGIN=http://localhost:3000
 
 ## Deployment
 
-- Deploy the frontend from the repo root to Vercel.
-- Deploy the backend from `backend/` to Railway.
-- Set `NEXT_PUBLIC_API_URL` in Vercel to the Railway backend URL.
-- Set `CORS_ORIGIN` in Railway to include the Vercel URL and local dev origin.
+- Deploy the frontend from the repo root to Vercel
+- Deploy the backend from `backend/` to Railway
+- Set `NEXT_PUBLIC_API_URL` in Vercel to the Railway backend URL
+- Set `CORS_ORIGIN` in Railway to include your Vercel domain
 
 ## Notes
 
-- No real `.env` files are committed.
-- `node_modules` remains ignored.
-- Public data endpoints live under `/api/*` on the backend.
+- No real `.env` files are committed
+- No secrets are committed
+- `node_modules` is ignored
+- README stays updated with the current setup

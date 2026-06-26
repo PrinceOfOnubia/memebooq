@@ -77,8 +77,8 @@
   --radius-lg: var(--r-lg);
   --radius-xl: var(--r-xl);
 
-  --font-display: var(--font-display);
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
   --font-mono: var(--font-mono);
 
   --animate-marquee: marquee 40s linear infinite;
