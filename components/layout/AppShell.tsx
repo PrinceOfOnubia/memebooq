@@ -15,11 +15,8 @@ import { useAuth } from "@/components/providers/AuthProvider";
 const PUBLIC_ROUTES = ["/docs", "/privacy", "/terms", "/token"];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { connected, ready } = useAuth();
+  const { connected } = useAuth();
   const pathname = usePathname();
-
-  // Avoid a landing/app flash before localStorage is read.
-  if (!ready) return null;
 
   if (!connected) {
     const isPublic = PUBLIC_ROUTES.some((p) => pathname.startsWith(p));

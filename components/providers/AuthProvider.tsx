@@ -10,15 +10,11 @@ import {
 import { ConnectModal } from "@/components/wallet/ConnectModal";
 import { me } from "@/lib/mock";
 
-const STORAGE_KEY = "mb_wallet";
-
 interface AuthState {
   /** Whether a wallet is connected (user is in the authenticated app). */
   connected: boolean;
   /** Connected wallet address (mock). */
   address: string | null;
-  /** True until localStorage has been read, to avoid landing/app flash. */
-  ready: boolean;
   connectModalOpen: boolean;
   openConnect: () => void;
   closeConnect: () => void;
@@ -37,17 +33,12 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
-  const [ready, setReady] = useState(false);
   const [connectModalOpen, setConnectModalOpen] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setAddress(saved);
-    } catch {
-      /* ignore */
-    }
-    setReady(true);
+    // Keep the landing page as the default entry point on every load.
+    // Connection state stays in memory only, so refreshes always return to landing.
+    setAddress(null);
   }, []);
 
   const openConnect = useCallback(() => setConnectModalOpen(true), []);
@@ -57,21 +48,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Mock connection — in a real app this resolves the wallet's address.
     const addr = me.wallet;
     setAddress(addr);
-    try {
-      localStorage.setItem(STORAGE_KEY, addr);
-    } catch {
-      /* ignore */
-    }
     setConnectModalOpen(false);
   }, []);
 
   const disconnect = useCallback(() => {
     setAddress(null);
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      /* ignore */
-    }
   }, []);
 
   return (
@@ -79,7 +60,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         connected: !!address,
         address,
-        ready,
         connectModalOpen,
         openConnect,
         closeConnect,
