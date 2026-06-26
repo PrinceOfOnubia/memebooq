@@ -16,8 +16,10 @@ import { ChallengeCard } from "./ChallengeCard";
 import { challenges } from "@/lib/mock";
 import { useTimeLeft } from "@/components/ui/useTimeLeft";
 import { compact, fmtToken, fmtUsd } from "@/lib/utils";
+import { useAuth } from "@/components/providers/AuthProvider";
 
 export function ChallengeDetail({ c }: { c: Challenge }) {
+  const { connected, joinChallenge: joinChallengeToBackend, openConnect } = useAuth();
   const [joined, setJoined] = useState(false);
   const [submitOpen, setSubmitOpen] = useState(false);
   const [shared, setShared] = useState(false);
@@ -28,6 +30,15 @@ export function ChallengeDetail({ c }: { c: Challenge }) {
   function share() {
     setShared(true);
     setTimeout(() => setShared(false), 1800);
+  }
+
+  async function joinChallenge() {
+    if (!connected) {
+      openConnect();
+      return;
+    }
+    await joinChallengeToBackend(c.slug);
+    setJoined(true);
   }
 
   return (
@@ -82,7 +93,7 @@ export function ChallengeDetail({ c }: { c: Challenge }) {
             </div>
             <div className="mt-4 flex gap-2">
               {!joined ? (
-                <Button className="flex-1" size="lg" onClick={() => setJoined(true)}>
+                <Button className="flex-1" size="lg" onClick={() => void joinChallenge()}>
                   Join challenge
                 </Button>
               ) : (
@@ -180,7 +191,7 @@ export function ChallengeDetail({ c }: { c: Challenge }) {
 
             <div className="space-y-2.5 p-5">
               {!joined ? (
-                <Button className="w-full" size="lg" magnetic onClick={() => setJoined(true)}>
+                <Button className="w-full" size="lg" magnetic onClick={() => void joinChallenge()}>
                   Join challenge
                 </Button>
               ) : (

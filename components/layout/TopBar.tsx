@@ -8,7 +8,6 @@ import { Logo } from "./Logo";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { Avatar } from "@/components/ui/Avatar";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { me } from "@/lib/mock";
 import { cn, shortAddr } from "@/lib/utils";
 
 const nav = [
@@ -20,7 +19,7 @@ const nav = [
 export function TopBar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { address, disconnect } = useAuth();
+  const { address, disconnect, user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -94,15 +93,15 @@ export function TopBar() {
               onClick={() => setMenuOpen((v) => !v)}
               className="block rounded-full transition-opacity hover:opacity-90"
             >
-              <Avatar src={me.avatar} alt={me.name} size={38} verified={me.xConnected} ring />
+              <Avatar src={user?.avatar ?? "/logo-mark.png"} alt={user?.name ?? "Memebooq user"} size={38} verified={user?.xConnected} ring />
             </button>
 
             {menuOpen && (
               <div className="absolute right-0 top-12 z-[95] w-60 overflow-hidden rounded-2xl border border-border-strong glass-strong">
                 <div className="border-b border-border px-4 py-3">
-                  <p className="text-sm font-semibold text-text">{me.name}</p>
+                  <p className="text-sm font-semibold text-text">{user?.name ?? "Connect your wallet"}</p>
                   <p className="mt-0.5 font-mono text-[12px] text-faint">
-                    {shortAddr(address ?? me.wallet)}
+                    {shortAddr(address ?? user?.wallet ?? "0x0000000000000000000000000000000000000000")}
                   </p>
                 </div>
                 <div className="p-1.5">

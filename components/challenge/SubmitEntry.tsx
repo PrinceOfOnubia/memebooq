@@ -7,7 +7,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import type { Challenge, SubmissionStatus } from "@/lib/types";
-import { me } from "@/lib/mock";
+import { useAuth } from "@/components/providers/AuthProvider";
 
 const statusTone: Record<SubmissionStatus, "gold" | "green" | "blue" | "red"> = {
   "Pending Review": "gold",
@@ -25,16 +25,29 @@ export function SubmitEntry({
   open: boolean;
   onClose: () => void;
 }) {
+  const { user, submitChallenge: submitToBackend } = useAuth();
   const isMulti = challenge.submissionType === "Multiple Links";
   const isUpload = challenge.submissionType === "Image Upload";
   const [links, setLinks] = useState<string[]>([""]);
   const [phase, setPhase] = useState<"form" | "loading" | "done">("form");
+  const [error, setError] = useState<string | null>(null);
 
   const valid = isUpload ? true : links.some((l) => l.trim().length > 4);
 
-  function submit() {
+  async function submit() {
     setPhase("loading");
-    setTimeout(() => setPhase("done"), 1300);
+    setError(null);
+    try {
+      await submitToBackend(challenge.slug, {
+        link: links.find((link) => link.trim().length > 4)?.trim() ?? "",
+        links,
+        type: challenge.submissionType,
+      });
+      setPhase("done");
+    } catch (err) {
+      setPhase("form");
+      setError(err instanceof Error ? err.message : "Unable to submit entry");
+    }
   }
 
   function reset() {
@@ -49,7 +62,7 @@ export function SubmitEntry({
         Got it
       </Button>
     ) : (
-      <Button className="w-full" onClick={submit} disabled={!valid || phase === "loading"}>
+      <Button className="w-full" onClick={() => void submit()} disabled={!valid || phase === "loading"}>
         {phase === "loading" ? (
           <>
             <Loader2 size={18} className="animate-spin" /> Verifying…
@@ -91,7 +104,7 @@ export function SubmitEntry({
           <div className="flex items-center gap-3 rounded-2xl border border-blue/20 bg-blue/8 p-3.5">
             <ShieldCheck size={20} className="shrink-0 text-blue" />
             <p className="text-[13px] text-muted">
-              Submitting as <span className="font-medium text-text">@{me.handle}</span>. Links must come
+              Submitting as <span className="font-medium text-text">@{user?.handle ?? "connected user"}</span>. Links must come
               from your connected X account to be approved.
             </p>
           </div>
@@ -161,6 +174,12 @@ export function SubmitEntry({
                   </span>
                 ))}
               </div>
+            </div>
+          )}
+
+          {error && (
+            <div className="rounded-2xl border border-red/25 bg-red/10 px-4 py-3 text-[13px] text-red">
+              {error}
             </div>
           )}
 

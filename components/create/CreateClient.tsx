@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/Avatar";
 import type { Category, RewardToken, SubmissionType } from "@/lib/types";
-import { me } from "@/lib/mock";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { cn, fmtUsd } from "@/lib/utils";
 
 const categories: Category[] = ["Memes", "Threads", "Videos", "AI", "Design", "Research"];
@@ -24,6 +24,7 @@ const tokenUsd: Record<RewardToken, number> = { BNB: 600, ETH: 3200, USDT: 1, ME
 const steps = ["Basics", "Reward & Schedule", "Rules & Submission"];
 
 export function CreateClient() {
+  const { createChallenge: createChallengeOnBackend, user } = useAuth();
   const [step, setStep] = useState(0);
   const [published, setPublished] = useState(false);
 
@@ -54,6 +55,23 @@ export function CreateClient() {
   const pool = Math.round(amount * tokenUsd[token]);
   const canNext =
     step === 0 ? title.trim().length > 2 : step === 1 ? amount > 0 && winners > 0 : true;
+
+  async function publishChallenge() {
+    await createChallengeOnBackend({
+      title,
+      slug: title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+      description: desc,
+      category,
+      rewardToken: token,
+      rewardAmount: amount,
+      winners,
+      days,
+      submissionType: subType,
+      rules: rules.split("\n").map((rule) => rule.trim()).filter(Boolean),
+      requiredTags: tags.split(/\s+/).filter(Boolean),
+    });
+    setPublished(true);
+  }
 
   if (published) {
     return (
@@ -259,7 +277,7 @@ export function CreateClient() {
                 Continue <ChevronRight size={16} />
               </Button>
             ) : (
-              <Button magnetic onClick={() => setPublished(true)}>
+              <Button magnetic onClick={() => void publishChallenge()}>
                 Launch challenge 🚀
               </Button>
             )}
@@ -277,7 +295,7 @@ export function CreateClient() {
               <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/30 to-transparent" />
               <div className="absolute inset-x-3 top-3 flex justify-between">
                 <Badge tone="neutral" className="bg-black/45 backdrop-blur border-white/10 text-white">{category}</Badge>
-                {me.xConnected && <Badge tone="blue" className="bg-black/45 backdrop-blur">Official</Badge>}
+                {user?.xConnected && <Badge tone="blue" className="bg-black/45 backdrop-blur">Official</Badge>}
               </div>
               <div className="absolute bottom-3 left-3">
                 <span className="text-[11px] uppercase tracking-wider text-white/60">Reward pool</span>
@@ -290,8 +308,8 @@ export function CreateClient() {
                 {title || "Your challenge title"}
               </h3>
               <div className="flex items-center gap-2">
-                <Avatar src={me.avatar} alt={me.name} size={22} verified />
-                <span className="text-[13px] text-muted">{me.name}</span>
+                <Avatar src={user?.avatar ?? "/logo-mark.png"} alt={user?.name ?? "Memebooq"} size={22} verified={!!user?.xConnected} />
+                <span className="text-[13px] text-muted">{user?.name ?? "Memebooq"}</span>
               </div>
               <div className="flex items-center justify-between border-t border-border pt-3 text-[12px] text-muted">
                 <span className="flex items-center gap-1.5"><Users size={13} /> 0</span>

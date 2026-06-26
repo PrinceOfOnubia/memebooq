@@ -6,6 +6,7 @@ import { BadgeCheck, Check, Globe, Loader2, ShieldCheck, Wallet, FileCode2 } fro
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/components/providers/AuthProvider";
 
 const modes = ["Verify X account", "Verify a project"] as const;
 
@@ -50,8 +51,9 @@ export function VerifyClient() {
 }
 
 function XFlow() {
-  const [connected, setConnected] = useState(false);
-  const [linked, setLinked] = useState(false);
+  const { user, openConnect, connectX, disconnectX } = useAuth();
+  const connected = !!user;
+  const linked = !!user?.xConnected;
   return (
     <div className="space-y-3">
       <StepCard
@@ -59,7 +61,7 @@ function XFlow() {
         title="Connect your wallet"
         body="Your wallet is your identity on Memebooq."
         done={connected}
-        action={<Button variant={connected ? "glass" : "primary"} onClick={() => setConnected(true)}>{connected ? <><Check size={16} /> 0x7a…3D7c</> : <><Wallet size={16} /> Connect</>}</Button>}
+        action={<Button variant={connected ? "glass" : "primary"} onClick={() => (connected ? undefined : openConnect())}>{connected ? <><Check size={16} /> {user?.wallet.slice(0, 6)}…{user?.wallet.slice(-4)}</> : <><Wallet size={16} /> Connect</>}</Button>}
       />
       <StepCard
         n={2}
@@ -67,12 +69,20 @@ function XFlow() {
         body="We check that submitted links come from this account before approval."
         done={linked}
         disabled={!connected}
-        action={<Button variant={linked ? "glass" : "primary"} disabled={!connected} onClick={() => setLinked(true)}>{linked ? <><Check size={16} /> @satoshigirl</> : "Connect 𝕏"}</Button>}
+        action={
+          <Button
+            variant={linked ? "glass" : "primary"}
+            disabled={!connected}
+            onClick={() => void (linked ? disconnectX() : connectX())}
+          >
+            {linked ? <><Check size={16} /> @{user?.xHandle ?? user?.handle}</> : "Connect 𝕏"}
+          </Button>
+        }
       />
       {linked && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 rounded-2xl border border-green/25 bg-green/10 p-4">
           <BadgeCheck className="text-green" />
-          <p className="text-sm text-text">You can now submit entries. Links must come from <span className="font-medium">@satoshigirl</span>.</p>
+          <p className="text-sm text-text">You can now submit entries. Links must come from <span className="font-medium">@{user?.xHandle ?? user?.handle}</span>.</p>
         </motion.div>
       )}
     </div>

@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Wallet } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { useAuth } from "@/components/providers/AuthProvider";
 
@@ -15,33 +14,41 @@ const wallets = [
 ];
 
 export function ConnectModal() {
-  const { connectModalOpen, closeConnect, connect } = useAuth();
-  const router = useRouter();
+  const { connectModalOpen, closeConnect, connectWallet, error, loading } = useAuth();
   const [pending, setPending] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
 
-  function handle(id: string) {
+  async function handle(id: string) {
     setPending(id);
-    // Simulate the wallet handshake, then enter the app.
-    setTimeout(() => {
-      connect(id);
+    setLocalError(null);
+    try {
+      await connectWallet(id);
+    } catch (err) {
+      setLocalError(err instanceof Error ? err.message : "Failed to connect wallet");
+    } finally {
       setPending(null);
-      router.push("/home");
-    }, 750);
+    }
   }
 
   return (
     <Modal open={connectModalOpen} onClose={closeConnect} title="Connect your wallet">
       <p className="mb-5 text-[13.5px] leading-relaxed text-muted">
-        Connect a wallet to enter Memebooq. New here? An account is created
-        automatically — no email, no password.
+        Connect a wallet to enter Memebooq. New here? An account is created automatically. Your login is secured
+        by a wallet signature, not a password.
       </p>
+
+      {(localError || error) && (
+        <div className="mb-4 rounded-2xl border border-red/25 bg-red/10 px-4 py-3 text-[13px] text-red">
+          {localError ?? error}
+        </div>
+      )}
 
       <div className="space-y-2.5">
         {wallets.map((w) => (
           <button
             key={w.id}
-            onClick={() => handle(w.id)}
-            disabled={!!pending}
+            onClick={() => void handle(w.id)}
+            disabled={!!pending || loading}
             className="flex w-full items-center gap-3 rounded-2xl border border-border bg-surface/60 px-4 py-3.5 text-left transition-colors hover:border-border-strong hover:bg-surface-2 disabled:opacity-60"
           >
             <span className="grid h-10 w-10 place-items-center rounded-xl bg-surface-2 text-xl">
@@ -63,6 +70,11 @@ export function ConnectModal() {
       <p className="mt-5 flex items-center justify-center gap-1.5 text-[12px] text-faint">
         <ShieldCheck size={14} className="text-green" />
         Non-custodial · we never hold your funds
+      </p>
+
+      <p className="mt-3 flex items-center justify-center gap-1.5 text-[12px] text-faint">
+        <Wallet size={14} className="text-gold-bright" />
+        Supported network: BNB Chain
       </p>
     </Modal>
   );

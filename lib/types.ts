@@ -91,6 +91,29 @@ export interface UserProfile {
   created: number;
   wins: number;
   earned: number;
+  role?: "user" | "admin";
+  xHandle?: string | null;
+  xUserId?: string | null;
+  joinedChallenges?: { slug: string; title: string; category?: string; status?: string; addedAt: string }[];
+  createdChallenges?: { slug: string; title: string; category?: string; status?: string; addedAt: string }[];
+  submissions?: {
+    id: string;
+    challengeSlug: string;
+    challengeTitle: string;
+    link: string;
+    type: string;
+    status: string;
+    submittedAt: string;
+    reward?: number;
+    authorVerified?: boolean;
+  }[];
+  notificationPreferences?: {
+    email: boolean;
+    push: boolean;
+    xMentions: boolean;
+  };
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type NotificationKind =
