@@ -41,6 +41,7 @@ declare global {
 interface AuthState {
   connected: boolean;
   address: string | null;
+  walletBalance: string | null;
   user: UserProfile | null;
   loading: boolean;
   error: string | null;
@@ -89,11 +90,26 @@ function isSwitchError(error: unknown) {
   return typeof error === "object" && error !== null && "code" in error && Number((error as { code?: number }).code) === 4902;
 }
 
+function formatBnbBalance(balanceWei: string) {
+  if (!balanceWei.startsWith("0x")) return null;
+  try {
+    const wei = BigInt(balanceWei);
+    const oneEth = 1_000_000_000_000_000_000n;
+    const whole = wei / oneEth;
+    const fraction = ((wei % oneEth) * 100n + 500_000_000_000_000_000n) / oneEth;
+    const fractionText = fraction.toString().padStart(2, "0");
+    return `${whole.toString()}.${fractionText} BNB`;
+  } catch {
+    return null;
+  }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [address, setAddress] = useState<string | null>(null);
+  const [walletBalance, setWalletBalance] = useState<string | null>(null);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -101,11 +117,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const apiBaseUrl = getApiBaseUrl();
 
+  const refreshWalletBalance = useCallback(async (walletAddress?: string | null) => {
+    const targetAddress = walletAddress ?? address;
+    if (!targetAddress || !window.ethereum) {
+      setWalletBalance(null);
+      return;
+    }
+    try {
+      const balance = await window.ethereum.request({
+        method: "eth_getBalance",
+        params: [targetAddress, "latest"],
+      });
+      if (typeof balance === "string") {
+        setWalletBalance(formatBnbBalance(balance));
+      } else {
+        setWalletBalance(null);
+      }
+    } catch {
+      setWalletBalance(null);
+    }
+  }, [address]);
+
   const loadSession = useCallback(async () => {
     const stored = typeof window !== "undefined" ? window.localStorage.getItem(SESSION_STORAGE_KEY) : null;
     if (!stored) {
       setUser(null);
       setAddress(null);
+      setWalletBalance(null);
       setSessionToken(null);
       setLoading(false);
       return;
@@ -117,6 +155,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setAddress(response.me.wallet);
       setSessionToken(stored);
       setError(null);
+      void refreshWalletBalance(response.me.wallet);
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) {
         try {
@@ -126,10 +165,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setAddress(refreshed.user.wallet);
           setSessionToken(refreshed.token);
           setError(null);
+          void refreshWalletBalance(refreshed.user.wallet);
         } catch {
           window.localStorage.removeItem(SESSION_STORAGE_KEY);
           setUser(null);
           setAddress(null);
+          setWalletBalance(null);
           setSessionToken(null);
         }
       } else {
@@ -138,7 +179,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [refreshWalletBalance]);
 
   useEffect(() => {
     void loadSession();
@@ -216,12 +257,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(auth.user);
     setAddress(auth.user.wallet);
     setSessionToken(auth.token);
+    void refreshWalletBalance(auth.user.wallet);
     setConnectModalOpen(false);
     setError(null);
     if (pathname === "/" || pathname.startsWith("/landing")) {
       router.push("/home");
     }
-  }, [pathname, router]);
+  }, [pathname, refreshWalletBalance, router]);
 
   const disconnect = useCallback(async () => {
     const token = sessionToken ?? (typeof window !== "undefined" ? window.localStorage.getItem(SESSION_STORAGE_KEY) : null);
@@ -237,6 +279,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     setUser(null);
     setAddress(null);
+    setWalletBalance(null);
     setSessionToken(null);
   }, [sessionToken]);
 
@@ -245,7 +288,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const response = await fetchMe(sessionToken);
     setUser(response.me);
     setAddress(response.me.wallet);
-  }, [sessionToken]);
+    void refreshWalletBalance(response.me.wallet);
+  }, [refreshWalletBalance, sessionToken]);
 
   const updateProfile = useCallback(async (patch: Partial<Pick<UserProfile, "name" | "handle" | "avatar" | "bio" | "notificationPreferences">>) => {
     if (!sessionToken) return null;
@@ -258,8 +302,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
     setUser(response.me);
     setAddress(response.me.wallet);
+    void refreshWalletBalance(response.me.wallet);
     return response.me;
-  }, [sessionToken]);
+  }, [refreshWalletBalance, sessionToken]);
 
   const connectX = useCallback(async () => {
     if (!sessionToken) throw new Error("Connect your wallet first.");
@@ -278,24 +323,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const response = await joinChallenge(sessionToken, slug);
     setUser(response.me);
     setAddress(response.me.wallet);
+    void refreshWalletBalance(response.me.wallet);
     return response.me;
-  }, [sessionToken]);
+  }, [refreshWalletBalance, sessionToken]);
 
   const createChallengeAction = useCallback(async (payload: Record<string, unknown>) => {
     if (!sessionToken) return null;
     const response = await createChallenge(sessionToken, payload);
     setUser(response.me);
     setAddress(response.me.wallet);
+    void refreshWalletBalance(response.me.wallet);
     return response.me;
-  }, [sessionToken]);
+  }, [refreshWalletBalance, sessionToken]);
 
   const submitChallengeAction = useCallback(async (slug: string, payload: Record<string, unknown>) => {
     if (!sessionToken) return null;
     const response = await submitChallenge(sessionToken, slug, payload);
     setUser(response.me);
     setAddress(response.me.wallet);
+    void refreshWalletBalance(response.me.wallet);
     return response.me;
-  }, [sessionToken]);
+  }, [refreshWalletBalance, sessionToken]);
 
   const verifyXAuthorAction = useCallback(async (payload: Record<string, unknown>) => {
     if (!sessionToken) {
@@ -313,6 +361,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     () => ({
       connected: !!user,
       address,
+      walletBalance,
       user,
       loading,
       error,
@@ -355,6 +404,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       updateProfile,
       user,
       verifyXAuthorAction,
+      walletBalance,
     ],
   );
 

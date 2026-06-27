@@ -13,9 +13,9 @@ export function Logo({
   return (
     <Link href={href} className={cn("inline-flex items-center gap-2.5", className)} aria-label="Shillcoins">
       {iconOnly ? (
-        <img src="/logo-mark.png" alt="Shillcoins" className="block h-[44px] w-[44px] shrink-0 object-contain sm:h-[48px] sm:w-[48px]" />
+        <img src="/logo-mark.png" alt="Shillcoins" className="block h-[42px] w-[42px] shrink-0 object-contain sm:h-[46px] sm:w-[46px]" />
       ) : (
-        <img src="/logo-full.png" alt="Shillcoins" className="block h-[52px] w-auto max-w-[260px] shrink-0 object-contain sm:h-[64px] sm:max-w-[300px]" />
+        <img src="/logo-full.png" alt="Shillcoins" className="block h-[48px] w-auto max-w-[240px] shrink-0 object-contain sm:h-[56px] sm:max-w-[280px]" />
       )}
     </Link>
   );

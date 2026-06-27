@@ -8,7 +8,7 @@ import { Logo } from "./Logo";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { Avatar } from "@/components/ui/Avatar";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { cn, shortAddr } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 const nav = [
   { href: "/home", label: "Home" },
@@ -19,7 +19,7 @@ const nav = [
 export function TopBar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { address, disconnect, user, openConnect, connected } = useAuth();
+  const { disconnect, user, openConnect, connected, walletBalance } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState("");
   const menuRef = useRef<HTMLDivElement>(null);
@@ -103,7 +103,7 @@ export function TopBar() {
             type="button"
           >
             <Wallet size={16} className="text-gold-bright" />
-            <span className="font-mono">{connected ? shortAddr(address ?? user?.wallet ?? "") : "Connect"}</span>
+            <span className="font-mono">{connected ? (walletBalance ?? "… BNB") : "Connect"}</span>
           </button>
 
           <div ref={menuRef} className="relative">
@@ -120,9 +120,7 @@ export function TopBar() {
               <div className="absolute right-0 top-12 z-[95] w-60 overflow-hidden rounded-2xl border border-border-strong glass-strong">
                 <div className="border-b border-border px-4 py-3">
                   <p className="text-sm font-semibold text-text">{user?.name ?? "Connect your wallet"}</p>
-                  <p className="mt-0.5 font-mono text-[12px] text-faint">
-                    {shortAddr(address ?? user?.wallet ?? "0x0000000000000000000000000000000000000000")}
-                  </p>
+                  <p className="mt-0.5 font-mono text-[12px] text-faint">{connected ? (walletBalance ?? "… BNB") : "Connect"}</p>
                 </div>
                 <div className="p-1.5">
                   <Link
