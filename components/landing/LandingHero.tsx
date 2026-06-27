@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight, DollarSign, Flag, Rocket, Trophy, Users } from "lucide-react";
+import Link from "next/link";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { ContractAddress } from "./ContractAddress";
 import { fetchPublicSite } from "@/lib/public-api";
-import Link from "next/link";
+import { useAuth } from "@/components/providers/AuthProvider";
 
 type Stat = {
   icon: typeof Users;
@@ -17,6 +18,7 @@ type Stat = {
 };
 
 export function LandingHero() {
+  const { openConnect } = useAuth();
   const [statsData, setStatsData] = useState({
     totalUsers: 24_560,
     challenges: 1_248,
@@ -67,12 +69,13 @@ export function LandingHero() {
           <ContractAddress className="mt-7 w-full max-w-sm" />
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/home"
+            <button
+              type="button"
+              onClick={openConnect}
               className="flex h-14 w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-b from-gold-bright to-gold px-7 text-[15px] font-semibold text-black transition-shadow hover:shadow-[0_12px_44px_-8px_rgba(240,185,11,0.65)] sm:w-auto"
             >
               <Rocket size={19} /> Start Shilling
-            </Link>
+            </button>
             <Link
               href="/explore"
               className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl border border-border-strong bg-surface px-7 text-[15px] font-semibold text-text transition-colors hover:border-gold/50 hover:text-gold-bright sm:w-auto"

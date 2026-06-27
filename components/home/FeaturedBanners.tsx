@@ -78,7 +78,6 @@ function FeaturedBanner({ c }: { c: Challenge }) {
       <img
         src={c.cover}
         alt={c.title}
-        style={{ viewTransitionName: `cover-${c.slug}` }}
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/10" />

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { TopBar } from "./TopBar";
 import { BottomNav } from "./BottomNav";
 import { RewardTicker } from "./RewardTicker";
@@ -7,6 +8,13 @@ import { Footer } from "./Footer";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isLanding = pathname === "/" || pathname.startsWith("/landing");
+
+  if (isLanding) {
+    return <>{children}</>;
+  }
+
   return (
     <>
       <SmoothScroll />

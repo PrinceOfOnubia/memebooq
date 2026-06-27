@@ -113,7 +113,7 @@ export function TopBar() {
               onClick={() => setMenuOpen((v) => !v)}
               className="block rounded-full transition-opacity hover:opacity-90"
             >
-              <Avatar src={user?.avatar ?? "/logo-mark.png"} alt={user?.name ?? "Shillcoins user"} size={38} verified={user?.xConnected} ring />
+              <Avatar src={user?.avatar ?? "/avatar-default.svg"} alt={user?.name ?? "Shillcoins user"} size={38} verified={user?.xConnected} ring />
             </button>
 
             {menuOpen && (

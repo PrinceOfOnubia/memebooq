@@ -11,11 +11,11 @@ export function Logo({
   iconOnly?: boolean;
 }) {
   return (
-    <Link href={href} className={cn("inline-flex items-center gap-3", className)} aria-label="Shillcoins">
+    <Link href={href} className={cn("inline-flex items-center gap-2.5", className)} aria-label="Shillcoins">
       {iconOnly ? (
-        <img src="/logo-mark.png" alt="Shillcoins" className="h-9 w-9 shrink-0" />
+        <img src="/logo-mark.png" alt="Shillcoins" className="block h-10 w-10 shrink-0 object-contain sm:h-11 sm:w-11" />
       ) : (
-        <img src="/logo-full.png" alt="Shillcoins" className="h-11 w-auto max-w-[220px] shrink-0" />
+        <img src="/logo-full.png" alt="Shillcoins" className="block h-12 w-auto max-w-[240px] shrink-0 object-contain sm:h-14 sm:max-w-[280px]" />
       )}
     </Link>
   );

@@ -7,17 +7,18 @@ import { Menu, X } from "lucide-react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/layout/Logo";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { SOCIALS, TelegramIcon, XIcon } from "./social";
 
 const navItems = [
-  { label: "Home", href: "/home" as const },
+  { label: "Home", href: "/" as const },
   { label: "Challenges", href: "/explore" as const },
   { label: "Leaderboard", href: "/leaderboard" as const },
   { label: "Docs", href: "/docs" as const },
 ];
 
 const drawerLinks = [
-  { label: "Home", href: "/home" as const },
+  { label: "Home", href: "/" as const },
   { label: "Challenges", href: "/explore" as const },
   { label: "Leaderboard", href: "/leaderboard" as const },
   { label: "Docs", href: "/docs" as const },
@@ -29,6 +30,7 @@ const drawerLinks = [
 export function LandingHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { openConnect } = useAuth();
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -40,7 +42,7 @@ export function LandingHeader() {
   return (
     <header className="sticky top-0 z-50 glass-strong border-b border-border">
       <div className="mx-auto flex h-16 max-w-[1240px] items-center gap-4 px-4 sm:px-6">
-        <Logo href="/home" />
+        <Logo href="/" />
 
         <nav className="mx-auto hidden items-center gap-8 md:flex">
           {navItems.map((item, i) => (
@@ -64,12 +66,13 @@ export function LandingHeader() {
           <SocialButton href={SOCIALS.telegram} label="Telegram">
             <TelegramIcon size={18} />
           </SocialButton>
-          <Link
-            href="/home"
+          <button
+            type="button"
+            onClick={openConnect}
             className="ml-1 inline-flex h-10 items-center rounded-full bg-gradient-to-b from-gold-bright to-gold px-5 text-sm font-semibold text-black transition-shadow hover:shadow-[0_8px_30px_-6px_rgba(240,185,11,0.6)]"
           >
             Start Shilling
-          </Link>
+          </button>
         </div>
 
         <button
@@ -87,6 +90,7 @@ export function LandingHeader() {
             <MobileDrawer
               open={open}
               onClose={() => setOpen(false)}
+              onOpenConnect={openConnect}
             />,
             document.body,
           )
@@ -98,9 +102,11 @@ export function LandingHeader() {
 function MobileDrawer({
   open,
   onClose,
+  onOpenConnect,
 }: {
   open: boolean;
   onClose: () => void;
+  onOpenConnect: () => void;
 }) {
   const pathname = usePathname();
 
@@ -135,7 +141,7 @@ function MobileDrawer({
             type="button"
           />
 
-          <motion.aside
+            <motion.aside
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
@@ -146,7 +152,7 @@ function MobileDrawer({
             className="absolute right-0 top-0 flex h-full w-[88vw] max-w-[380px] flex-col border-l border-border-strong bg-[#090909] shadow-[0_0_0_1px_rgba(252,213,53,0.12),-24px_0_60px_rgba(0,0,0,0.65)]"
           >
             <div className="flex h-16 items-center justify-between border-b border-border px-4">
-              <Logo href="/home" className="scale-[0.78] origin-left" />
+              <Logo href="/" className="origin-left" />
               <button
                 aria-label="Close menu"
                 onClick={onClose}
@@ -182,13 +188,16 @@ function MobileDrawer({
                   <TelegramIcon size={18} />
                 </SocialButton>
               </div>
-              <Link
-                href="/home"
-                onClick={onClose}
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onOpenConnect();
+                }}
                 className="mt-4 inline-flex h-14 w-full items-center justify-center rounded-[22px] bg-gradient-to-b from-gold-bright to-gold px-5 text-[16px] font-semibold text-black shadow-[0_18px_36px_-16px_rgba(252,213,53,0.75)]"
               >
                 Start Shilling
-              </Link>
+              </button>
             </div>
           </motion.aside>
         </motion.div>

@@ -308,7 +308,7 @@ export function CreateClient() {
                 {title || "Your challenge title"}
               </h3>
               <div className="flex items-center gap-2">
-                <Avatar src={user?.avatar ?? "/logo-mark.png"} alt={user?.name ?? "Shillcoins"} size={22} verified={!!user?.xConnected} />
+                <Avatar src={user?.avatar ?? "/avatar-default.svg"} alt={user?.name ?? "Shillcoins"} size={22} verified={!!user?.xConnected} />
                 <span className="text-[13px] text-muted">{user?.name ?? "Shillcoins"}</span>
               </div>
               <div className="flex items-center justify-between border-t border-border pt-3 text-[12px] text-muted">

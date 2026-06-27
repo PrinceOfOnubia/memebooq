@@ -82,8 +82,7 @@ export interface LoginUser extends UserRecord {
   sessionExpiresAt: string;
 }
 
-const fallbackAvatar = (seed: string) =>
-  `https://api.dicebear.com/9.x/glass/svg?seed=${seed}&backgroundType=gradientLinear`;
+const fallbackAvatar = () => "/avatar-default.svg";
 const fallbackBanner = (seed: string) =>
   `https://images.unsplash.com/photo-1614851099511-773084f6911d?auto=format&fit=crop&w=1400&q=80&sig=${seed}`;
 
@@ -99,6 +98,18 @@ function handleFromAddress(address: string) {
 
 function displayNameFromAddress(address: string) {
   return `Shillcoins ${address.slice(2, 6).toUpperCase()}`;
+}
+
+function normalizeUserAvatar(avatar: string) {
+  if (
+    avatar === "/logo-mark.png" ||
+    avatar === "/logo-full.png" ||
+    avatar === "/icon.png" ||
+    avatar === "/avatar-default.svg"
+  ) {
+    return "/avatar-default.svg";
+  }
+  return avatar;
 }
 
 function blankStore(): StoreFile {
@@ -119,6 +130,11 @@ export class AccountStore {
     try {
       const raw = await readFile(this.filePath, "utf8");
       this.data = JSON.parse(raw) as StoreFile;
+      this.data.users = this.data.users.map((user) => ({
+        ...user,
+        avatar: normalizeUserAvatar(user.avatar),
+      }));
+      await this.save();
     } catch {
       this.data = blankStore();
       await this.save();
@@ -151,7 +167,7 @@ export class AccountStore {
       walletAddress: address,
       displayName: displayNameFromAddress(address),
       handle: handleFromAddress(address),
-      avatar: fallbackAvatar(address),
+      avatar: fallbackAvatar(),
       banner: fallbackBanner(address),
       bio: "Meme alchemist • DeFi degen • turning timelines into treasure.",
       role,
@@ -179,7 +195,7 @@ export class AccountStore {
       id: user.id,
       name: user.displayName,
       handle: user.handle,
-      avatar: user.avatar,
+      avatar: normalizeUserAvatar(user.avatar),
       banner: user.banner,
       wallet: user.walletAddress,
       bio: user.bio,
@@ -308,7 +324,7 @@ export class AccountStore {
     if (!user) return null;
     if (typeof patch.displayName === "string" && patch.displayName.trim()) user.displayName = patch.displayName.trim();
     if (typeof patch.handle === "string" && patch.handle.trim()) user.handle = patch.handle.trim().replace(/^@/, "");
-    if (typeof patch.avatar === "string" && patch.avatar.trim()) user.avatar = patch.avatar.trim();
+    if (typeof patch.avatar === "string" && patch.avatar.trim()) user.avatar = normalizeUserAvatar(patch.avatar.trim());
     if (typeof patch.bio === "string") user.bio = patch.bio.trim();
     if (patch.notificationPreferences) {
       user.notificationPreferences = {

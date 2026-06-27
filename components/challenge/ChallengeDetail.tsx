@@ -45,7 +45,7 @@ export function ChallengeDetail({ c }: { c: Challenge }) {
     <div className="-mt-6">
       {/* banner */}
       <div className="relative -mx-4 h-56 overflow-hidden sm:-mx-6 sm:h-80">
-        <img src={c.cover} alt={c.title} style={{ viewTransitionName: `cover-${c.slug}` }} className="h-full w-full object-cover" />
+        <img src={c.cover} alt={c.title} className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-bg/10" />
         <div className="absolute inset-x-4 top-4 sm:inset-x-6">
           <Link href="/explore" className="inline-flex items-center gap-1.5 rounded-full bg-black/45 px-3 py-1.5 text-[13px] text-white backdrop-blur hover:bg-black/60">

@@ -28,7 +28,6 @@ export function ChallengeCard({ c, index = 0 }: { c: Challenge; index?: number }
           <img
             src={c.cover}
             alt={c.title}
-            style={{ viewTransitionName: `cover-${c.slug}` }}
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/30 to-transparent" />

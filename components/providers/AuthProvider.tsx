@@ -8,6 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { ConnectModal } from "@/components/wallet/ConnectModal";
 import {
   ApiError,
@@ -89,6 +90,8 @@ function isSwitchError(error: unknown) {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
@@ -207,7 +210,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setSessionToken(auth.token);
     setConnectModalOpen(false);
     setError(null);
-  }, []);
+    if (pathname === "/" || pathname.startsWith("/landing")) {
+      router.push("/home");
+    }
+  }, [pathname, router]);
 
   const disconnect = useCallback(async () => {
     const token = sessionToken ?? (typeof window !== "undefined" ? window.localStorage.getItem(SESSION_STORAGE_KEY) : null);
