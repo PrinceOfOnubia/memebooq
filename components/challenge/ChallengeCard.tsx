@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Clock, Flame, Users } from "lucide-react";
 import type { Challenge } from "@/lib/types";

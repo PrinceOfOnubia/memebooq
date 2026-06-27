@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { Clock, Trophy } from "lucide-react";
 import type { Challenge } from "@/lib/types";
 import { Avatar } from "@/components/ui/Avatar";

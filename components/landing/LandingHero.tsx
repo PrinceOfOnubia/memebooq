@@ -90,7 +90,7 @@ export function LandingHero() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
-          className="relative mx-auto w-full max-w-[560px]"
+          className="relative mx-auto w-full max-w-[500px]"
         >
           <div className="pointer-events-none absolute inset-0 -z-10 bg-gold/12 blur-[120px]" />
           <img src="/hero-rocket.png" alt="Shillcoins rocket and token art" draggable={false} className="w-full select-none" />

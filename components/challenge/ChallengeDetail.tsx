@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Check, CheckCircle2, ClipboardCheck, Clock, FileCheck2, Share2, Tag, Trophy, Users,

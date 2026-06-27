@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { ViewTransitions } from "next-view-transitions";
 import { IntroProvider } from "@/components/providers/IntroProvider";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { AppShell } from "@/components/layout/AppShell";
@@ -46,13 +45,11 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" className="antialiased">
       <body className="min-h-dvh">
-        <ViewTransitions>
-          <IntroProvider>
-            <AuthProvider>
-              <AppShell>{children}</AppShell>
-            </AuthProvider>
-          </IntroProvider>
-        </ViewTransitions>
+        <IntroProvider>
+          <AuthProvider>
+            <AppShell>{children}</AppShell>
+          </AuthProvider>
+        </IntroProvider>
       </body>
     </html>
   );

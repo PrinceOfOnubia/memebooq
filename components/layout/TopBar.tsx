@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LogOut, Plus, Search, User, Wallet } from "lucide-react";
@@ -103,7 +103,7 @@ export function TopBar() {
             type="button"
           >
             <Wallet size={16} className="text-gold-bright" />
-            <span className="font-mono">{connected ? shortAddr(address ?? user?.wallet ?? "") : "Connect wallet"}</span>
+            <span className="font-mono">{connected ? shortAddr(address ?? user?.wallet ?? "") : "Connect"}</span>
           </button>
 
           <div ref={menuRef} className="relative">

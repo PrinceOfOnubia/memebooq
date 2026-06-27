@@ -191,10 +191,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     const nonceResponse = await requestNonce(walletAddress, walletId, expectedChainId);
-    const signature = await window.ethereum.request({
-      method: "personal_sign",
-      params: [nonceResponse.message, walletAddress],
-    });
+    let signature: unknown;
+    try {
+      signature = await window.ethereum.request({
+        method: "personal_sign",
+        params: [nonceResponse.message, walletAddress],
+      });
+    } catch {
+      signature = await window.ethereum.request({
+        method: "personal_sign",
+        params: [walletAddress, nonceResponse.message],
+      });
+    }
 
     const auth = await loginWithWallet({
       address: walletAddress,
