@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Copy, Pencil, Settings2, Trophy, Wallet, Check, Link2, MessageSquareShare, LogOut } from "lucide-react";
+import { Copy, Pencil, Trophy, Wallet, Check, MessageSquareShare } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge, VerifiedBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -17,7 +17,7 @@ import { useAuth } from "@/components/providers/AuthProvider";
 const tabs = ["Submissions", "Joined", "Created"] as const;
 
 export function UserProfileClient() {
-  const { user, loading, updateProfile, connectX, disconnectX: unlinkX, disconnect } = useAuth();
+  const { user, loading, updateProfile, connectX, disconnectX: unlinkX } = useAuth();
   const [tab, setTab] = useState<(typeof tabs)[number]>("Submissions");
   const [copied, setCopied] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -151,8 +151,8 @@ export function UserProfileClient() {
           <Button variant="outline" type="button" onClick={() => { setName(currentUser.name); setBio(currentUser.bio); setAvatar(currentUser.avatar); setEditOpen(true); }}>
             <Pencil size={15} /> Edit profile
           </Button>
-          <Button variant="glass" type="button" onClick={() => void connectX()}>
-            <MessageSquareShare size={15} /> {user.xConnected ? "Reconnect X" : "Connect X"}
+          <Button variant={currentUser.xConnected ? "outline" : "glass"} type="button" onClick={() => void (currentUser.xConnected ? unlinkX() : connectX())}>
+            <MessageSquareShare size={15} /> {currentUser.xConnected ? "Disconnect X" : "Connect X"}
           </Button>
         </div>
       </div>
@@ -169,21 +169,6 @@ export function UserProfileClient() {
         <StatCard label="Rewards earned" value={<AnimatedNumber value={currentUser.earned} prefix="$" useCompact />} accent />
         <StatCard label="Challenges joined" value={<AnimatedNumber value={currentUser.joined} />} />
         <StatCard label="Created" value={<AnimatedNumber value={currentUser.created} />} />
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        <Button variant="ghost" size="sm" type="button" onClick={() => void unlinkX()} disabled={!currentUser.xConnected}>
-          <Link2 size={14} /> Disconnect X
-        </Button>
-        <Button variant="ghost" size="sm" type="button" onClick={() => void disconnect()}>
-          <LogOut size={14} /> Disconnect wallet
-        </Button>
-        <a
-          href="/settings"
-          className="inline-flex h-9 items-center justify-center gap-2 rounded-[12px] border border-border-strong px-4 text-[13px] text-muted transition-colors hover:border-gold/60 hover:text-gold-bright"
-        >
-          <Settings2 size={14} /> Settings
-        </a>
       </div>
 
       <div className="no-scrollbar mt-8 flex gap-1 overflow-x-auto border-b border-border">
