@@ -98,7 +98,7 @@ function handleFromAddress(address: string) {
 }
 
 function displayNameFromAddress(address: string) {
-  return `Memebooq ${address.slice(2, 6).toUpperCase()}`;
+  return `Shillcoins ${address.slice(2, 6).toUpperCase()}`;
 }
 
 function blankStore(): StoreFile {
@@ -143,7 +143,7 @@ export class AccountStore {
 
   private seedUser(address: string): UserRecord {
     const now = nowIso();
-    const adminWallet = normalizeEnv(process.env.ADMIN_WALLET_ADDRESS);
+    const adminWallet = normalizeEnv(process.env.ADMIN_WALLET ?? process.env.ADMIN_WALLET_ADDRESS);
     const normalized = address.toLowerCase();
     const role: Role = adminWallet && adminWallet === normalized ? "admin" : "user";
     return {

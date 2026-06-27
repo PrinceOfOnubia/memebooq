@@ -1,7 +1,7 @@
 import { VerifyClient } from "@/components/profile/VerifyClient";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
-export const metadata = { title: "Get verified — Memebooq" };
+export const metadata = { title: "Get verified — Shillcoins" };
 
 export default function VerifyPage() {
   return (

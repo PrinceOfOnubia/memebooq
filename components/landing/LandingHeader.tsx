@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 import { Logo } from "@/components/layout/Logo";
 import { SOCIALS, TelegramIcon, XIcon } from "./social";
 
@@ -27,6 +28,7 @@ const drawerLinks = [
 
 export function LandingHeader() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -45,7 +47,10 @@ export function LandingHeader() {
             <Link
               key={item.label}
               href={item.href}
-              className={"text-sm font-medium transition-colors hover:text-text " + (i === 0 ? "text-gold-bright" : "text-muted")}
+              className={
+                "text-sm font-medium transition-colors hover:text-text " +
+                (pathname === item.href ? "text-gold-bright" : i === 0 ? "text-gold-bright" : "text-muted")
+              }
             >
               {item.label}
             </Link>
@@ -63,7 +68,7 @@ export function LandingHeader() {
             href="/home"
             className="ml-1 inline-flex h-10 items-center rounded-full bg-gradient-to-b from-gold-bright to-gold px-5 text-sm font-semibold text-black transition-shadow hover:shadow-[0_8px_30px_-6px_rgba(240,185,11,0.6)]"
           >
-            Open the Book
+            Start Shilling
           </Link>
         </div>
 
@@ -97,6 +102,8 @@ function MobileDrawer({
   open: boolean;
   onClose: () => void;
 }) {
+  const pathname = usePathname();
+
   useEffect(() => {
     if (!open) return;
 
@@ -136,10 +143,10 @@ function MobileDrawer({
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute right-0 top-0 flex h-full w-[84vw] max-w-[340px] flex-col border-l border-border-strong bg-[#070708] shadow-[0_0_0_1px_rgba(252,213,53,0.12),-24px_0_60px_rgba(0,0,0,0.65)]"
+            className="absolute right-0 top-0 flex h-full w-[88vw] max-w-[380px] flex-col border-l border-border-strong bg-[#090909] shadow-[0_0_0_1px_rgba(252,213,53,0.12),-24px_0_60px_rgba(0,0,0,0.65)]"
           >
             <div className="flex h-16 items-center justify-between border-b border-border px-4">
-              <Logo href="/home" className="scale-[0.9] origin-left" />
+              <Logo href="/home" className="scale-[0.78] origin-left" />
               <button
                 aria-label="Close menu"
                 onClick={onClose}
@@ -150,13 +157,16 @@ function MobileDrawer({
               </button>
             </div>
 
-            <nav className="flex flex-1 flex-col px-3 py-3">
+            <nav className="flex flex-1 flex-col px-4 py-4">
               {drawerLinks.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
                   onClick={onClose}
-                  className="rounded-2xl px-4 py-3 text-[15px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-text"
+                  className={
+                    "rounded-[22px] px-4 py-4 text-[15px] font-medium transition-colors hover:bg-surface-2 hover:text-text " +
+                    (pathname === item.href ? "bg-surface-2 text-text" : "text-muted")
+                  }
                 >
                   {item.label}
                 </Link>
@@ -172,6 +182,13 @@ function MobileDrawer({
                   <TelegramIcon size={18} />
                 </SocialButton>
               </div>
+              <Link
+                href="/home"
+                onClick={onClose}
+                className="mt-4 inline-flex h-14 w-full items-center justify-center rounded-[22px] bg-gradient-to-b from-gold-bright to-gold px-5 text-[16px] font-semibold text-black shadow-[0_18px_36px_-16px_rgba(252,213,53,0.75)]"
+              >
+                Start Shilling
+              </Link>
             </div>
           </motion.aside>
         </motion.div>

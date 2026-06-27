@@ -59,7 +59,7 @@ function XFlow() {
       <StepCard
         n={1}
         title="Connect your wallet"
-        body="Your wallet is your identity on Memebooq."
+        body="Your wallet is your identity on Shillcoins."
         done={connected}
         action={<Button variant={connected ? "glass" : "primary"} onClick={() => (connected ? undefined : openConnect())}>{connected ? <><Check size={16} /> {user?.wallet.slice(0, 6)}…{user?.wallet.slice(-4)}</> : <><Wallet size={16} /> Connect</>}</Button>}
       />

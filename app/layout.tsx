@@ -8,24 +8,24 @@ import { AppShell } from "@/components/layout/AppShell";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "Memebooq",
-    template: "%s — Memebooq",
+    default: "Shillcoins",
+    template: "%s — Shillcoins",
   },
   description:
-    "Memebooq is the home for crypto communities. Create challenges, grow your community and earn rewards.",
+    "Shillcoins is the home for crypto communities. Create challenges, grow your community and earn rewards.",
   openGraph: {
-    title: "Memebooq",
+    title: "Shillcoins",
     description:
-      "Memebooq is the home for crypto communities. Create challenges, grow your community and earn rewards.",
+      "Shillcoins is the home for crypto communities. Create challenges, grow your community and earn rewards.",
     images: ["/logo-1024.png"],
-    siteName: "Memebooq",
+    siteName: "Shillcoins",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Memebooq",
+    title: "Shillcoins",
     description:
-      "Memebooq is the home for crypto communities. Create challenges, grow your community and earn rewards.",
+      "Shillcoins is the home for crypto communities. Create challenges, grow your community and earn rewards.",
     images: ["/logo-1024.png"],
   },
   icons: {

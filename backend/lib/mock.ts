@@ -18,7 +18,7 @@ export const creators = {
 export const challenges = [
   {
     id: "ch1",
-    slug: "bnb-chain-meme-mania",
+    slug: "bnb-chain-shill-mania",
     title: "BNB Chain Meme Mania",
     cover: img("photo-1620207418302-439b387441b0"),
     category: "Memes",
@@ -93,7 +93,7 @@ export const notifications = [
     body: "Your entry placed in the Top 25 of BNB Chain Meme Mania. 1.6 BNB is on its way to your wallet.",
     at: agoH(0.4),
     unread: true,
-    href: "/challenge/bnb-chain-meme-mania",
+    href: "/challenge/bnb-chain-shill-mania",
     actor: creators.bnbchain,
   },
 ];
@@ -151,12 +151,12 @@ export const me = {
 export const leaderboard = {
   winners: [
     { id: "w1", rank: 1, name: "satoshi.girl", handle: "satoshigirl", avatar: av("w1"), verified: true, value: 40500, wins: 28, delta: 1 },
-    { id: "w2", rank: 2, name: "Memelord", handle: "memelord_eth", avatar: av("w2"), verified: false, value: 27500, wins: 24, delta: 0 },
+    { id: "w2", rank: 2, name: "Memelord", handle: "shilllord_eth", avatar: av("w2"), verified: false, value: 27500, wins: 24, delta: 0 },
     { id: "w3", rank: 3, name: "zk.pilled", handle: "zkpilled", avatar: av("w3"), verified: false, value: 21400, wins: 20, delta: -1 },
   ],
   contributors: [
     { id: "c1", rank: 1, name: "satoshi.girl", handle: "satoshigirl", avatar: av("c1"), verified: true, value: 410, wins: 19, delta: 1 },
-    { id: "c2", rank: 2, name: "Memelord", handle: "memelord_eth", avatar: av("c2"), verified: false, value: 382, wins: 18, delta: 0 },
+    { id: "c2", rank: 2, name: "Memelord", handle: "shilllord_eth", avatar: av("c2"), verified: false, value: 382, wins: 18, delta: 0 },
   ],
   projects: [
     { id: "p1", rank: 1, name: "BNB Chain", handle: "BNBCHAIN", avatar: av("p1"), verified: true, value: 312000, wins: 41, delta: 1 },

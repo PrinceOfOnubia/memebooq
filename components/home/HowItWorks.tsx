@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { PenLine, Send, Trophy } from "lucide-react";
 
 const steps = [
-  { icon: PenLine, title: "Create on X", body: "Post your meme, thread, video or design straight to X — your audience lives there.", n: "01" },
+  { icon: PenLine, title: "Create on X", body: "Post your shill, thread, video or design straight to X — your audience lives there.", n: "01" },
   { icon: Send, title: "Submit the link", body: "Drop your post link into the challenge. We verify it belongs to your connected X account.", n: "02" },
   { icon: Trophy, title: "Win rewards", body: "Get approved, climb the board, and split the funded reward pool with the top creators.", n: "03" },
 ];
@@ -25,7 +25,7 @@ export function HowItWorks() {
             Three steps to the <span className="text-gold-grad">pool</span>.
           </h2>
           <p className="mt-4 max-w-sm text-muted">
-            No new social network to learn. Memebooq plugs straight into X — you keep your audience, we handle the rest.
+            No new social network to learn. Shillcoins plugs straight into X — you keep your audience, we handle the rest.
           </p>
         </div>
 

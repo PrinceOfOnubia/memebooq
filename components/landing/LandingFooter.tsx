@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/layout/Logo";
-import { DiscordIcon, SOCIALS, TelegramIcon, XIcon } from "./social";
+import { SOCIALS, TelegramIcon, XIcon } from "./social";
 
 const quickLinks = [
   ["Docs", "/docs"],
@@ -44,16 +44,13 @@ export function LandingFooter() {
             <Social href={SOCIALS.telegram} label="Telegram">
               <TelegramIcon size={18} />
             </Social>
-            <Social href={SOCIALS.discord} label="Discord">
-              <DiscordIcon size={18} />
-            </Social>
           </div>
         </div>
       </div>
 
       <div className="border-t border-border">
         <div className="mx-auto max-w-[1240px] px-4 py-5 text-[12px] text-faint sm:px-6">
-          © {new Date().getFullYear()} Memebooq. All rights reserved.
+          © {new Date().getFullYear()} Shillcoins. All rights reserved.
         </div>
       </div>
     </footer>

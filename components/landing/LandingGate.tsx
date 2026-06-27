@@ -1,9 +1,9 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { BookOpen, Send, Sparkles, X } from "lucide-react";
+import { Sparkles, X } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
-import { SOCIALS } from "./social";
+import { SOCIALS, TelegramIcon, XIcon } from "./social";
 
 type LaunchModalContextValue = {
   openLaunchModal: () => void;
@@ -44,7 +44,7 @@ function LaunchModal({ open, onClose }: { open: boolean; onClose: () => void }) 
       showHeader={false}
       mobilePlacement="center"
       bodyScrollable={false}
-      shellClassName="w-[min(760px,calc(100vw-1rem))] max-h-[85dvh] overflow-hidden rounded-[24px] border border-gold/35 bg-[#050505] text-text shadow-[0_0_0_1px_rgba(252,213,53,0.18),0_28px_72px_-28px_rgba(0,0,0,0.92)] sm:w-[min(780px,calc(100vw-2rem))] sm:max-h-[90dvh]"
+      shellClassName="w-[min(740px,calc(100vw-1rem))] max-h-[85dvh] overflow-hidden rounded-[24px] border border-gold/35 bg-[#050505] text-text shadow-[0_0_0_1px_rgba(252,213,53,0.18),0_28px_72px_-28px_rgba(0,0,0,0.92)] sm:w-[min(760px,calc(100vw-2rem))] sm:max-h-[90dvh]"
       bodyClassName="p-0 overflow-hidden"
     >
       <div className="relative overflow-hidden">
@@ -71,8 +71,8 @@ function LaunchModal({ open, onClose }: { open: boolean; onClose: () => void }) 
 
             <div className="relative z-10 flex w-full max-w-[250px] items-center justify-center sm:max-w-[280px] lg:max-w-[320px]">
               <img
-                src="/hero-book.png"
-                alt="Memebooq coming soon artwork"
+                src="/hero-rocket.png"
+                alt="Shillcoins coming soon artwork"
                 draggable={false}
                 className="relative z-10 w-full select-none drop-shadow-[0_22px_34px_rgba(0,0,0,0.92)]"
               />
@@ -81,31 +81,24 @@ function LaunchModal({ open, onClose }: { open: boolean; onClose: () => void }) 
 
           <div className="relative flex flex-col px-4 pb-4 pt-0 sm:px-5 sm:pb-5 lg:px-6 lg:py-6">
             <div className="flex items-center gap-3">
-              <img src="/logo-full.png" alt="Memebooq" className="h-7 w-auto max-w-[170px] sm:h-8 sm:max-w-[210px]" />
+              <img src="/logo-full.png" alt="Shillcoins" className="h-7 w-auto max-w-[170px] sm:h-8 sm:max-w-[210px]" />
             </div>
 
             <div className="mt-4 max-w-[500px] lg:mt-6">
               <h3 className="font-display text-[clamp(1.9rem,6.8vw,3.15rem)] font-bold leading-[0.95] tracking-[-0.06em] text-balance">
-                The Booq
-                <span className="block text-gold-grad">Opens Soon</span>
+                Shill Season
+                <span className="block text-gold-grad">Starts Soon</span>
               </h3>
 
               <div className="mt-3 flex items-center gap-3 lg:mt-4">
                 <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/55 to-transparent" />
-                <BookOpen size={13} className="text-gold-bright" />
+                <Sparkles size={13} className="text-gold-bright" />
                 <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/55 to-transparent" />
               </div>
 
               <p className="mt-3 max-w-[40ch] text-[13px] leading-6 text-text/88 sm:text-[14px]">
-                We’re writing the first chapter of Memebooq. Challenges, rewards, creator campaigns, and
-                community missions are almost ready. Follow the journey and be first to enter when the book
-                opens.
-              </p>
-
-              <p className="mt-3 flex items-center gap-2 text-[13px] leading-6 text-gold-bright sm:text-[14px]">
-                <Sparkles size={15} className="shrink-0" />
-                Launching soon. Follow the journey.
-                <Sparkles size={15} className="shrink-0" />
+                Shillcoins is getting ready to open campaigns, challenges, rewards, and community missions.
+                Follow the movement and be first to join when Shillcoins goes live.
               </p>
             </div>
 
@@ -125,7 +118,7 @@ function LaunchModal({ open, onClose }: { open: boolean; onClose: () => void }) 
                 rel="noreferrer"
                 className="inline-flex h-11 items-center justify-center gap-2.5 rounded-2xl border border-border-strong bg-black/85 px-4 text-[14px] font-semibold text-text transition-colors hover:border-gold/60 hover:text-gold-bright"
               >
-                <Send size={17} className="rotate-[20deg]" />
+                <TelegramIcon size={17} />
                 Join
               </a>
               <button
@@ -133,8 +126,7 @@ function LaunchModal({ open, onClose }: { open: boolean; onClose: () => void }) 
                 className="inline-flex h-11 items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-b from-gold-bright to-gold px-5 text-[14px] font-semibold text-black transition-shadow hover:shadow-[0_14px_44px_-14px_rgba(252,213,53,0.8)]"
                 type="button"
               >
-                <BookOpen size={17} />
-                Close Book
+                Close
               </button>
             </div>
           </div>
@@ -153,13 +145,5 @@ function FloatingSparkle({ className, delay = "0s" }: { className: string; delay
     >
       <Sparkles size={16} />
     </div>
-  );
-}
-
-function XIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
   );
 }

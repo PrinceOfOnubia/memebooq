@@ -33,7 +33,7 @@ export function ConnectModal() {
   return (
     <Modal open={connectModalOpen} onClose={closeConnect} title="Connect your wallet">
       <p className="mb-5 text-[13.5px] leading-relaxed text-muted">
-        Connect a wallet to enter Memebooq. New here? An account is created automatically. Your login is secured
+        Connect a wallet to enter Shillcoins. New here? An account is created automatically. Your login is secured
         by a wallet signature, not a password.
       </p>
 

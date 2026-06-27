@@ -44,15 +44,17 @@ const originList = (process.env.CORS_ORIGIN ?? process.env.CLIENT_ORIGIN ?? clie
   .map((origin) => origin.trim())
   .filter(Boolean);
 const chainId = Number.parseInt(process.env.CHAIN_ID ?? "56", 10);
-const jwtSecret = process.env.JWT_SECRET ?? "memebooq-dev-secret";
+const jwtSecret = process.env.JWT_SECRET ?? "shillcoins-dev-secret";
 const sessionSecret = process.env.SESSION_SECRET ?? jwtSecret;
 const xClientId = process.env.X_CLIENT_ID?.trim();
 const xClientSecret = process.env.X_CLIENT_SECRET?.trim();
 const xCallbackUrl = process.env.X_CALLBACK_URL?.trim() ?? `${clientOrigin.replace(/\/$/, "")}/api/auth/x/callback`;
 const xBearerToken = process.env.X_BEARER_TOKEN?.trim();
+const appName = process.env.APP_NAME?.trim() || "Shillcoins";
 
 const sitePayload = {
-  brand: "Memebooq",
+  brand: appName,
+  ticker: "$SHC",
   contractAddress: "Coming Soon",
   stats: {
     totalUsers: 24_560,
@@ -261,7 +263,7 @@ async function main() {
         200,
         {
           ok: true,
-          service: "memebooq-backend",
+          service: "shillcoins-backend",
           time: new Date().toISOString(),
           auth: {
             wallet: true,
@@ -792,7 +794,7 @@ async function main() {
       res,
       200,
       {
-        service: "memebooq-backend",
+        service: "shillcoins-backend",
         endpoints: [
           "/health",
           "/api/public/site",
@@ -823,7 +825,7 @@ async function main() {
   });
 
   server.listen(port, host, () => {
-    console.log(`Memebooq backend listening on ${host}:${port}`);
+    console.log(`${appName} backend listening on ${host}:${port}`);
   });
 }
 

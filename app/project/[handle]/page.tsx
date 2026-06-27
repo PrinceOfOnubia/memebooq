@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
   const p = getProject(handle);
-  return { title: p ? `${p.name} — Memebooq` : "Project — Memebooq" };
+  return { title: p ? `${p.name} — Shillcoins` : "Project — Shillcoins" };
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ handle: string }> }) {

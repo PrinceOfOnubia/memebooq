@@ -24,7 +24,7 @@ export const creators: Record<string, Creator> = {
   pixelpepe: { id: "c3", type: "project", name: "Pixel Pepe", handle: "pixelpepe", avatar: av("pixelpepe"), verified: true },
   degenlab: { id: "c4", type: "project", name: "Degen Lab", handle: "degenlab", avatar: av("degenlab"), verified: true },
   satoshigirl: { id: "u1", type: "user", name: "satoshi.girl", handle: "satoshigirl", avatar: av("satoshigirl"), verified: false },
-  memelord: { id: "u2", type: "user", name: "Memelord", handle: "memelord_eth", avatar: av("memelord"), verified: false },
+  shilllord: { id: "u2", type: "user", name: "Memelord", handle: "shilllord_eth", avatar: av("shilllord"), verified: false },
   zkpilled: { id: "u3", type: "user", name: "zk.pilled", handle: "zkpilled", avatar: av("zkpilled"), verified: false },
 };
 
@@ -32,7 +32,7 @@ export const creators: Record<string, Creator> = {
 export const challenges: Challenge[] = [
   {
     id: "ch1",
-    slug: "bnb-chain-meme-mania",
+    slug: "bnb-chain-shill-mania",
     title: "BNB Chain Meme Mania",
     cover: img("photo-1620207418302-439b387441b0"),
     category: "Memes",
@@ -46,7 +46,7 @@ export const challenges: Challenge[] = [
     endsAt: inDays(4),
     submissionType: "X Post",
     description:
-      "Drop your dankest BNB Chain meme. The community decides what slaps. Top 25 split a 42 BNB pool. No reposts, OC only — make the timeline laugh.",
+      "Drop your dankest BNB Chain shill. The community decides what slaps. Top 25 split a 42 BNB pool. No reposts, OC only — make the timeline laugh.",
     rules: ["Original content only", "Must tag @BNBCHAIN", "1 entry per account", "No NSFW"],
     proof: ["Public X post link", "Post must be from your verified X account"],
     requiredTags: ["@BNBCHAIN", "#MemeMania"],
@@ -114,7 +114,7 @@ export const challenges: Challenge[] = [
     endsAt: inDays(9),
     submissionType: "Video Link",
     description:
-      "Built an AI agent that trades, researches or memes on-chain? Show it in a 60s clip. Most impressive demos take the pool.",
+      "Built an AI agent that trades, researches or shills on-chain? Show it in a 60s clip. Most impressive demos take the pool.",
     rules: ["Max 90 seconds", "Must show live on-chain action", "No paper trading"],
     proof: ["Video link (X / YouTube)", "Repo link optional"],
     requiredTags: ["@degenlab", "#AIagents"],
@@ -176,7 +176,7 @@ export const challenges: Challenge[] = [
     rewardToken: "MEME",
     rewardAmount: 1_500_000,
     winners: 20,
-    creator: creators.memelord,
+    creator: creators.shilllord,
     participants: 2310,
     startsAt: agoH(6),
     endsAt: inDays(3),
@@ -257,7 +257,7 @@ export const challenges: Challenge[] = [
   },
   {
     id: "ch11",
-    slug: "diamond-hands-memes",
+    slug: "diamond-hands-shills",
     title: "Diamond Hands Meme War",
     cover: img("photo-1605792657660-596af9009e82"),
     category: "Memes",
@@ -265,14 +265,14 @@ export const challenges: Challenge[] = [
     rewardToken: "MEME",
     rewardAmount: 2_500_000,
     winners: 25,
-    creator: creators.memelord,
+    creator: creators.shilllord,
     participants: 4120,
     startsAt: agoH(2),
     endsAt: inDays(3),
     submissionType: "X Post",
     description:
-      "HODL culture in meme form. Show the timeline what real diamond hands look like. Maximum cope encouraged.",
-    rules: ["OC memes", "No gore", "1 best entry counts"],
+      "HODL culture in shill form. Show the timeline what real diamond hands look like. Maximum cope encouraged.",
+    rules: ["OC shills", "No gore", "1 best entry counts"],
     proof: ["X post link"],
     official: false,
     trending: 95,
@@ -307,10 +307,10 @@ export const getChallenge = (slug: string) =>
 /* ── submissions ────────────────────────────────────────── */
 export const submissions: Submission[] = [
   { id: "s1", challengeId: "ch1", challengeTitle: "BNB Chain Meme Mania", cover: challenges[0].cover, user: creators.satoshigirl, link: "https://x.com/satoshigirl/status/1", type: "X Post", status: "Winner", submittedAt: agoH(50), reward: 1.6 },
-  { id: "s2", challengeId: "ch11", challengeTitle: "Diamond Hands Meme War", cover: challenges[10].cover, user: creators.memelord, link: "https://x.com/memelord_eth/status/2", type: "X Post", status: "Approved", submittedAt: agoH(4) },
+  { id: "s2", challengeId: "ch11", challengeTitle: "Diamond Hands Meme War", cover: challenges[10].cover, user: creators.shilllord, link: "https://x.com/shilllord_eth/status/2", type: "X Post", status: "Approved", submittedAt: agoH(4) },
   { id: "s3", challengeId: "ch2", challengeTitle: "Why DeFi? — Best Explainer Thread", cover: challenges[1].cover, user: creators.zkpilled, link: "https://x.com/zkpilled/status/3", type: "X Thread", status: "Pending Review", submittedAt: agoH(1) },
   { id: "s4", challengeId: "ch5", challengeTitle: "60-Second BNB Explainer Video", cover: challenges[4].cover, user: creators.satoshigirl, link: "https://x.com/satoshigirl/status/4", type: "Video Link", status: "Approved", submittedAt: agoH(8) },
-  { id: "s5", challengeId: "ch3", challengeTitle: "Pixel Pepe PFP Design Jam", cover: challenges[2].cover, user: creators.memelord, link: "upload://pepe.png", type: "Image Upload", status: "Rejected", submittedAt: agoH(20) },
+  { id: "s5", challengeId: "ch3", challengeTitle: "Pixel Pepe PFP Design Jam", cover: challenges[2].cover, user: creators.shilllord, link: "upload://pepe.png", type: "Image Upload", status: "Rejected", submittedAt: agoH(20) },
   { id: "s6", challengeId: "ch9", challengeTitle: "Alpha Threads of the Week", cover: challenges[8].cover, user: creators.zkpilled, link: "https://x.com/zkpilled/status/6", type: "X Thread", status: "Winner", submittedAt: agoH(72), reward: 1000 },
 ];
 
@@ -323,7 +323,7 @@ export const notifications: AppNotification[] = [
     body: "Your entry placed in the Top 25 of BNB Chain Meme Mania. 1.6 BNB is on its way to your wallet.",
     at: agoH(0.4),
     unread: true,
-    href: "/challenge/bnb-chain-meme-mania",
+    href: "/challenge/bnb-chain-shill-mania",
     actor: creators.bnbchain,
   },
   {

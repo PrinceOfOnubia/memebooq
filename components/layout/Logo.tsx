@@ -11,17 +11,11 @@ export function Logo({
   iconOnly?: boolean;
 }) {
   return (
-    <Link href={href} className={cn("inline-flex items-center gap-3", className)} aria-label="Memebooq">
+    <Link href={href} className={cn("inline-flex items-center gap-3", className)} aria-label="Shillcoins">
       {iconOnly ? (
-        <img src="/logo-mark.png" alt="Memebooq" className="h-9 w-9 shrink-0" />
+        <img src="/logo-mark.png" alt="Shillcoins" className="h-9 w-9 shrink-0" />
       ) : (
-        <>
-          <img src="/logo-mark.png" alt="" aria-hidden className="h-11 w-11 shrink-0" />
-          <span className="font-display text-[1.8rem] font-bold leading-none tracking-[-0.05em] sm:text-[2rem]">
-            <span className="text-text">meme</span>
-            <span className="text-gold">booq</span>
-          </span>
-        </>
+        <img src="/logo-full.png" alt="Shillcoins" className="h-11 w-auto max-w-[220px] shrink-0" />
       )}
     </Link>
   );

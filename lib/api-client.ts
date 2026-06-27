@@ -10,7 +10,7 @@ export class ApiError extends Error {
 }
 
 const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "";
-export const SESSION_STORAGE_KEY = "memebooq.session.token";
+export const SESSION_STORAGE_KEY = "shillcoins.session.token";
 
 type JsonObject = Record<string, unknown>;
 

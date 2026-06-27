@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const c = getChallenge(slug);
-  return { title: c ? `${c.title} — Memebooq` : "Challenge — Memebooq" };
+  return { title: c ? `${c.title} — Shillcoins` : "Challenge — Shillcoins" };
 }
 
 export default async function ChallengePage({ params }: { params: Promise<{ slug: string }> }) {

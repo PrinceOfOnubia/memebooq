@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, ChevronRight, DollarSign, Flag, Trophy, Users } from "lucide-react";
+import { ChevronRight, DollarSign, Flag, Rocket, Trophy, Users } from "lucide-react";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { ContractAddress } from "./ContractAddress";
 import { fetchPublicSite } from "@/lib/public-api";
@@ -61,8 +61,7 @@ export function LandingHero() {
           </h1>
 
           <p className="mt-6 max-w-md text-[16px] leading-relaxed text-muted">
-            Memebooq is the home for crypto communities. Complete challenges, earn{" "}
-            <span className="font-medium text-gold-bright">rewards</span> and climb the leaderboard.
+            Shillcoins is the home for crypto communities. Complete challenges, earn rewards, and climb the leaderboard.
           </p>
 
           <ContractAddress className="mt-7 w-full max-w-sm" />
@@ -72,7 +71,7 @@ export function LandingHero() {
               href="/home"
               className="flex h-14 w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-b from-gold-bright to-gold px-7 text-[15px] font-semibold text-black transition-shadow hover:shadow-[0_12px_44px_-8px_rgba(240,185,11,0.65)] sm:w-auto"
             >
-              <BookOpen size={19} /> Open the Book
+              <Rocket size={19} /> Start Shilling
             </Link>
             <Link
               href="/explore"
@@ -83,15 +82,15 @@ export function LandingHero() {
           </div>
         </div>
 
-        {/* right — 3D book visual */}
+        {/* right — hero visual */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
-          className="relative mx-auto w-full max-w-[520px]"
+          className="relative mx-auto w-full max-w-[560px]"
         >
           <div className="pointer-events-none absolute inset-0 -z-10 bg-gold/12 blur-[120px]" />
-          <img src="/hero-book.png" alt="Memebooq" draggable={false} className="w-full select-none" />
+          <img src="/hero-rocket.png" alt="Shillcoins rocket and token art" draggable={false} className="w-full select-none" />
         </motion.div>
       </div>
 

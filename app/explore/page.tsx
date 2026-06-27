@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { ExploreClient } from "@/components/explore/ExploreClient";
 
-export const metadata = { title: "Explore — Memebooq" };
+export const metadata = { title: "Explore — Shillcoins" };
 
 export default function ExplorePage() {
   return (

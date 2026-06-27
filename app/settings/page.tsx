@@ -1,7 +1,7 @@
 import { SettingsClient } from "@/components/profile/SettingsClient";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
-export const metadata = { title: "Settings — Memebooq" };
+export const metadata = { title: "Settings — Shillcoins" };
 
 export default function SettingsPage() {
   return (

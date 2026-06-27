@@ -67,7 +67,7 @@ export function buildWalletLoginMessage(input: {
   origin: string;
 }) {
   return [
-    "Memebooq wants you to sign in with your wallet.",
+    "Shillcoins wants you to sign in with your wallet.",
     "",
     `Address: ${input.address}`,
     `Chain ID: ${input.chainId}`,
