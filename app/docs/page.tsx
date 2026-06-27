@@ -1,16 +1,16 @@
 import { LegalLayout, type DocSection } from "@/components/legal/LegalLayout";
 
 export const metadata = {
-  title: "Docs — Shillcoins",
-  description: "How Shillcoins works: challenges, submissions, rewards and verification.",
+  title: "Docs — Memebook",
+  description: "How Memebook works: challenges, submissions, rewards and verification.",
 };
 
 const sections: DocSection[] = [
   {
-    id: "what-is-Shillcoins",
-    heading: "What is Shillcoins",
+    id: "what-is-memebook",
+    heading: "What is Memebook",
     body: [
-      "Shillcoins is a community-first crypto arena. Projects and creators post challenges with funded reward pools; anyone can join, submit their work, and compete for a share of the rewards.",
+      "Memebook is a community-first crypto arena. Projects and creators post challenges with funded reward pools; anyone can join, submit their work, and compete for a share of the rewards.",
       "Everything is mobile-first and dark by default, powered by BNB Chain. Each challenge card is a direct invitation to participate.",
     ],
   },
@@ -105,7 +105,7 @@ export default function DocsPage() {
   return (
     <LegalLayout
       eyebrow="Documentation"
-      title="How Shillcoins works"
+      title="How Memebook works"
       intro="Everything you need to discover challenges, submit your best work, and earn funded crypto rewards on BNB Chain."
       updated="June 26, 2026"
       sections={sections}
