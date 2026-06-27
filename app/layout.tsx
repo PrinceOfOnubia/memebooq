@@ -5,27 +5,27 @@ import { IntroProvider } from "@/components/providers/IntroProvider";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { AppShell } from "@/components/layout/AppShell";
 
+const appName = process.env.NEXT_PUBLIC_APP_NAME ?? "Shillcoins";
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "Shillcoins",
-    template: "%s — Shillcoins",
+    default: appName,
+    template: `%s — ${appName}`,
   },
   description:
-    "Shillcoins is the home for crypto communities. Create challenges, grow your community and earn rewards.",
+    `${appName} is the home for crypto communities. Create challenges, grow your community and earn rewards.`,
   openGraph: {
-    title: "Shillcoins",
-    description:
-      "Shillcoins is the home for crypto communities. Create challenges, grow your community and earn rewards.",
+    title: appName,
+    description: `${appName} is the home for crypto communities. Create challenges, grow your community and earn rewards.`,
     images: ["/logo-1024.png"],
-    siteName: "Shillcoins",
+    siteName: appName,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Shillcoins",
-    description:
-      "Shillcoins is the home for crypto communities. Create challenges, grow your community and earn rewards.",
+    title: appName,
+    description: `${appName} is the home for crypto communities. Create challenges, grow your community and earn rewards.`,
     images: ["/logo-1024.png"],
   },
   icons: {

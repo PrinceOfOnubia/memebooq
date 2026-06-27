@@ -62,9 +62,19 @@ X_BEARER_TOKEN=your_optional_x_api_bearer_token
 ## Deployment
 
 - Deploy the frontend from the repo root to Vercel as `shillcoins`
+- Vercel root directory: `.`
+- Vercel framework preset: Next.js
+- Vercel build command: `npm run build`
+- Vercel install command: `npm install`
 - Deploy the backend from `backend/` to Railway as `shillcoins-backend`
+- Railway root directory: `backend`
+- Railway start command: `npm run start`
+- Railway build command: `npm run build`
 - Set `NEXT_PUBLIC_API_URL` in Vercel to the Railway backend URL
 - Set `CORS_ORIGIN` in Railway to include your Vercel domain
+- Set `CLIENT_ORIGIN` in Railway to the same Vercel domain
+- Set `X_CALLBACK_URL` to the Railway backend callback URL
+- Set `ADMIN_WALLET` to the admin wallet address you want to authorize
 
 ## Notes
 

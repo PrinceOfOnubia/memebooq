@@ -7,10 +7,9 @@ import { useAuth } from "@/components/providers/AuthProvider";
 
 const wallets = [
   { id: "metamask", name: "MetaMask", tag: "Popular", emoji: "🦊" },
-  { id: "walletconnect", name: "WalletConnect", tag: "Mobile", emoji: "🔗" },
-  { id: "coinbase", name: "Coinbase Wallet", tag: "", emoji: "🔵" },
   { id: "binance", name: "Binance Web3 Wallet", tag: "BNB Chain", emoji: "🟡" },
   { id: "trust", name: "Trust Wallet", tag: "", emoji: "🛡️" },
+  { id: "coinbase", name: "Coinbase Wallet", tag: "", emoji: "🔵" },
 ];
 
 export function ConnectModal() {
@@ -33,8 +32,8 @@ export function ConnectModal() {
   return (
     <Modal open={connectModalOpen} onClose={closeConnect} title="Connect your wallet">
       <p className="mb-5 text-[13.5px] leading-relaxed text-muted">
-        Connect a wallet to enter Shillcoins. New here? An account is created automatically. Your login is secured
-        by a wallet signature, not a password.
+        Connect an injected EVM wallet to enter Shillcoins. New here? An account is created automatically. Your
+        login is secured by a wallet signature, not a password.
       </p>
 
       {(localError || error) && (

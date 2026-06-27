@@ -7,6 +7,7 @@ export interface PublicSiteStats {
 
 export interface PublicSiteResponse {
   brand?: string;
+  ticker?: string;
   contractAddress?: string;
   stats?: PublicSiteStats;
 }

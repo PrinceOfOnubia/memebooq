@@ -71,6 +71,22 @@ export const useAuth = () => {
 };
 
 const expectedChainId = Number(process.env.NEXT_PUBLIC_CHAIN_ID ?? "56");
+const expectedChainHex = `0x${expectedChainId.toString(16)}`;
+const bnbChainConfig = {
+  chainId: expectedChainHex,
+  chainName: "BNB Smart Chain",
+  nativeCurrency: {
+    name: "BNB",
+    symbol: "BNB",
+    decimals: 18,
+  },
+  rpcUrls: ["https://bsc-dataseed.binance.org/"],
+  blockExplorerUrls: ["https://bscscan.com/"],
+};
+
+function isSwitchError(error: unknown) {
+  return typeof error === "object" && error !== null && "code" in error && Number((error as { code?: number }).code) === 4902;
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -134,10 +150,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw new Error("No wallet provider detected. Please install a supported wallet.");
     }
 
+    const switchToBnb = async () => {
+      try {
+        await window.ethereum!.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: expectedChainHex }],
+        });
+      } catch (switchError) {
+        if (!isSwitchError(switchError)) throw switchError;
+        await window.ethereum!.request({
+          method: "wallet_addEthereumChain",
+          params: [bnbChainConfig],
+        });
+        await window.ethereum!.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: expectedChainHex }],
+        });
+      }
+    };
+
     const chainHex = await window.ethereum.request({ method: "eth_chainId" });
     const activeChainId = typeof chainHex === "string" ? Number.parseInt(chainHex, 16) : Number(chainHex);
     if (activeChainId !== expectedChainId) {
-      throw new Error(`Please switch to chain ${expectedChainId} before signing in.`);
+      await switchToBnb();
+    }
+
+    const postSwitchHex = await window.ethereum.request({ method: "eth_chainId" });
+    const postSwitchChainId = typeof postSwitchHex === "string" ? Number.parseInt(postSwitchHex, 16) : Number(postSwitchHex);
+    if (postSwitchChainId !== expectedChainId) {
+      throw new Error("Please switch to BNB Smart Chain to sign in.");
     }
 
     const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
